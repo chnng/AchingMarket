@@ -8,19 +8,21 @@ import com.market.aching.R;
 
 public class MainActivity extends BaseActivity
 {
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState)
-//    {
-//        super.onCreate(savedInstanceState);
-//
-//    }
+    @Override
+    protected int getLayoutId()
+    {
+        return R.layout.activity_main;
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState)
+    protected void initViews(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+    }
+
+    @Override
+    protected void initToolBar()
+    {
 
     }
 }

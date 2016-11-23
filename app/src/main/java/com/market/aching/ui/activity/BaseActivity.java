@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -12,12 +13,6 @@ import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity
 {
-    protected abstract int getLayoutId();
-
-    protected abstract void initViews(Bundle savedInstanceState);
-
-    protected abstract void initToolBar();
-
     private Unbinder unbinder;
 
     @Override
@@ -25,5 +20,23 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        unbinder = ButterKnife.bind(this);
+        //初始化控件
+        initViews(savedInstanceState);
+        //初始化ToolBar
+        initToolBar();
+    }
+
+    protected abstract int getLayoutId();
+
+    protected abstract void initViews(Bundle savedInstanceState);
+
+    protected abstract void initToolBar();
+
+    @Override
+    protected void onDestroy()
+    {
+        unbinder.unbind();
+        super.onDestroy();
     }
 }
