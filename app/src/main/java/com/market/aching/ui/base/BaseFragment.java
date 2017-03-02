@@ -1,4 +1,4 @@
-package com.market.aching.ui.fragment;
+package com.market.aching.ui.base;
 
 import android.support.v4.app.Fragment;
 

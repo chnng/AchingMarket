@@ -1,4 +1,4 @@
-package com.market.aching.ui.activity;
+package com.market.aching.ui.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,14 +24,14 @@ public abstract class BaseActivity extends AppCompatActivity
         //初始化控件
         initViews(savedInstanceState);
         //初始化ToolBar
-        initToolBar();
+//        initToolBar();
     }
 
     protected abstract int getLayoutId();
 
     protected abstract void initViews(Bundle savedInstanceState);
 
-    protected abstract void initToolBar();
+//    protected abstract void initToolBar();
 
     @Override
     protected void onDestroy()

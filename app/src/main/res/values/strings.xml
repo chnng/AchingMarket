@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AchingMarket</string>
+    <string name="login_account">帐号</string>
+    <string name="login_password">密码</string>
+    <string name="login_confirm">登录</string>
+    <string name="login_err_account_empty">帐号不可为空！</string>
+    <string name="login_err_password_empty">密码不可为空！</string>
 </resources>

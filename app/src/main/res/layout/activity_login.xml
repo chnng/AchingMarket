@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@mipmap/login_background"
+              android:gravity="center"
+              android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/login_layout_text_input_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/login_account">
+
+        <EditText
+            android:layout_width="@dimen/activity_login_edit_text_width"
+            android:layout_height="@dimen/activity_login_edit_text_height"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/login_layout_text_input_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/login_password">
+
+        <EditText
+            android:layout_width="@dimen/activity_login_edit_text_width"
+            android:layout_height="@dimen/activity_login_edit_text_height"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/login_btn_confirm"
+        android:layout_width="@dimen/activity_login_edit_text_width"
+        android:layout_height="@dimen/activity_login_edit_text_height"
+        android:text="@string/login_confirm"/>
+</LinearLayout>

@@ -8,4 +8,17 @@ import android.app.Application;
 
 public class BaseApplication extends Application
 {
+    private static BaseApplication mApplication;
+
+    public static BaseApplication getInstance()
+    {
+        if (null != mApplication)
+        {
+            synchronized (BaseApplication.class)
+            {
+                mApplication = new BaseApplication();
+            }
+        }
+        return mApplication;
+    }
 }
