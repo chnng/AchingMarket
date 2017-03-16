@@ -5,8 +5,6 @@ import java.util.Stack;
 
 import android.app.Activity;
 
-import com.qinhe.ispeak.common.ISLog;
-
 /**
  * activity管理类
  * */
@@ -25,7 +23,13 @@ public class ScreenManager
 	{
 		if (instance == null)
 		{
-			instance = new ScreenManager();
+			synchronized (ScreenManager.class)
+			{
+				if (null == instance)
+				{
+					instance = new ScreenManager();
+				}
+			}
 		}
 		return instance;
 	}

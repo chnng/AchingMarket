@@ -12,11 +12,14 @@ public class BaseApplication extends Application
 
     public static BaseApplication getInstance()
     {
-        if (null != mApplication)
+        if (null == mApplication)
         {
             synchronized (BaseApplication.class)
             {
-                mApplication = new BaseApplication();
+                if (null == mApplication)
+                {
+                    mApplication = new BaseApplication();
+                }
             }
         }
         return mApplication;
