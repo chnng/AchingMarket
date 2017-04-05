@@ -1,36 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@mipmap/login_background"
-              android:gravity="center"
-              android:orientation="vertical">
+              android:background="@mipmap/login_bg_start_dust"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              tools:context=".ui.activity.LoginActivity">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/login_layout_text_input_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/login_account">
+        android:layout_marginBottom="@dimen/login_edit_text_margin_bottom"
+        android:layout_marginTop="@dimen/login_edit_text_margin_top"
+        android:hint="@string/login_account"
+        android:textColorHint="@color/white"
+        app:counterEnabled="true"
+        app:counterMaxLength="11">
 
-        <EditText
+        <AutoCompleteTextView
             android:layout_width="@dimen/activity_login_edit_text_width"
-            android:layout_height="@dimen/activity_login_edit_text_height"/>
+            android:layout_height="@dimen/activity_login_edit_text_height"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLength="11"
+            android:maxLines="1"
+            android:textColor="@color/white"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/login_layout_text_input_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/login_password">
+        android:layout_marginBottom="@dimen/login_edit_text_margin_bottom"
+        android:hint="@string/login_password"
+        android:textColorHint="@color/white"
+        app:counterEnabled="true">
 
         <EditText
             android:layout_width="@dimen/activity_login_edit_text_width"
-            android:layout_height="@dimen/activity_login_edit_text_height"/>
+            android:layout_height="@dimen/activity_login_edit_text_height"
+            android:imeActionLabel="@string/login_confirm"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textColor="@color/white"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/login_btn_confirm"
+        style="?android:textAppearanceSmall"
         android:layout_width="@dimen/activity_login_edit_text_width"
         android:layout_height="@dimen/activity_login_edit_text_height"
-        android:text="@string/login_confirm"/>
+        android:background="@drawable/login_btn_bg_selector"
+        android:text="@string/login_confirm"
+        android:textColor="@color/white"/>
 </LinearLayout>

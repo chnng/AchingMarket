@@ -11,7 +11,7 @@ import butterknife.BindView;
 public class MainActivity extends BaseActivity
 {
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
     @Override
     protected int getLayoutId()
     {
@@ -21,6 +21,6 @@ public class MainActivity extends BaseActivity
     @Override
     protected void initViews(Bundle savedInstanceState)
     {
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
     }
 }

@@ -6,7 +6,7 @@ import android.util.Log;
  * Created by Administrator on 2017/3/9.
  */
 
-public class ISLog
+public class ALog
 {
 
     public static void i(String tag, String msg)

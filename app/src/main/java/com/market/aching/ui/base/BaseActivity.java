@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.market.aching.utils.ScreenManager;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -20,6 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        ScreenManager.getScreenManager().pushActivity(this);
         unbinder = ButterKnife.bind(this);
         //初始化控件
         initViews(savedInstanceState);

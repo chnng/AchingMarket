@@ -57,7 +57,7 @@ public class ScreenManager
 	 */
 	public void popTopActivityEquals(Class<?> cls)
 	{
-		ISLog.i(TAG, "ScreenManager,popTopActivityEquals");
+		ALog.i(TAG, "ScreenManager,popTopActivityEquals");
 		if (activityStack != null && !activityStack.isEmpty())
 		{
 			if (activityStack.lastElement().getClass().equals(cls))
@@ -72,7 +72,7 @@ public class ScreenManager
 	 */
 	public void popActivityNoFinish()
 	{
-		ISLog.i(TAG, "ScreenManager,popActivityNoFinish");
+		ALog.i(TAG, "ScreenManager,popActivityNoFinish");
 		if (activityStack != null)
 		{
 			int size = getSize();
@@ -86,7 +86,7 @@ public class ScreenManager
 	 */
 	public void clearAllActivity()
 	{
-		ISLog.i(TAG, "ScreenManager,clearAllActivity");
+		ALog.i(TAG, "ScreenManager,clearAllActivity");
 		if (activityStack != null)
 		{
 			int size = getSize();
@@ -106,7 +106,7 @@ public class ScreenManager
 	 */
 	public void clearAllNoFinish()
 	{
-		ISLog.i(TAG, "ScreenManager,clearAllNoFinish");
+		ALog.i(TAG, "ScreenManager,clearAllNoFinish");
 		if (activityStack != null)
 		{
 			int size = getSize();
@@ -128,7 +128,7 @@ public class ScreenManager
 	 */
 	public void pushActivity(Activity activity)
 	{
-		ISLog.i(TAG, "ScreenManager,pushActivity");
+		ALog.i(TAG, "ScreenManager,pushActivity");
 		if (activityStack == null)
 		{
 			activityStack = new Stack<Activity>();
@@ -143,7 +143,7 @@ public class ScreenManager
 	 */
 	public Activity getTopActivity()
 	{
-		ISLog.i(TAG, "ScreenManager,getTopActivity");
+		ALog.i(TAG, "ScreenManager,getTopActivity");
 		Activity activity = null;
 		if (activityStack != null && !activityStack.isEmpty())
 			activity = activityStack.lastElement();
@@ -155,7 +155,7 @@ public class ScreenManager
 	 * @return
 	 */
 	public Activity getBottomActivity(){
-		ISLog.i(TAG, "ScreenManager,getBottomActivity");
+		ALog.i(TAG, "ScreenManager,getBottomActivity");
 		Activity activity = null;
 		if (activityStack != null && !activityStack.isEmpty())
 			activity = activityStack.firstElement();
@@ -166,7 +166,7 @@ public class ScreenManager
 	 * 遍历stack
 	 */
 	public void listStack(){
-		ISLog.i(TAG, "ScreenManager,listStack");
+		ALog.i(TAG, "ScreenManager,listStack");
 		if(activityStack != null)
 		{
 			Iterator<Activity> it = activityStack.iterator();
@@ -174,7 +174,7 @@ public class ScreenManager
 			{
 				Activity activity = it.next();
 				String classname = activity.getComponentName().getClassName();
-				ISLog.i(TAG, "ScreenManager,listStack,"+classname);
+				ALog.i(TAG, "ScreenManager,listStack,"+classname);
 			}
 		}
 	}
@@ -186,7 +186,7 @@ public class ScreenManager
 	 */
 	public void popAllActivityExceptOne(Class<?> cls)
 	{
-		ISLog.i(TAG, "ScreenManager,popAllActivityExceptOne");
+		ALog.i(TAG, "ScreenManager,popAllActivityExceptOne");
 		if (activityStack != null && !activityStack.isEmpty())
 			while (true)
 			{
@@ -211,7 +211,7 @@ public class ScreenManager
 	 */
 	public void popAllNoFinishExceptOne(Class<?> cls)
 	{
-		ISLog.i(TAG, "ScreenManager,popAllNoFinishExceptOne");
+		ALog.i(TAG, "ScreenManager,popAllNoFinishExceptOne");
 		while (true)
 		{
 			Activity activity = getTopActivity();
@@ -232,7 +232,7 @@ public class ScreenManager
 	 */
 	public void popActivityUntil(Class<?> cls)
 	{
-		ISLog.i(TAG, "ScreenManager,popActivityUntil");
+		ALog.i(TAG, "ScreenManager,popActivityUntil");
 		while (true)
 		{
 			if (activityStack == null || activityStack.isEmpty())
@@ -261,7 +261,7 @@ public class ScreenManager
 	 */
 	public int getSize()
 	{
-		ISLog.i(TAG, "ScreenManager,getSize");
+		ALog.i(TAG, "ScreenManager,getSize");
 		int size = 0;
 		if (activityStack != null)
 		{
@@ -278,7 +278,7 @@ public class ScreenManager
 	 */
 	public Activity getElement(int i)
 	{
-		ISLog.i(TAG, "ScreenManager,getElement");
+		ALog.i(TAG, "ScreenManager,getElement");
 		Activity activity = null;
 		if (activityStack != null)
 			activity = activityStack.elementAt(i);
@@ -290,7 +290,7 @@ public class ScreenManager
 	 * @return
 	 */
 	public boolean isEmpty(){
-		ISLog.i(TAG, "ScreenManager,isEmpty");
+		ALog.i(TAG, "ScreenManager,isEmpty");
 		boolean isEmpty = true;
 		if(activityStack!=null){
 			isEmpty  = activityStack.isEmpty();

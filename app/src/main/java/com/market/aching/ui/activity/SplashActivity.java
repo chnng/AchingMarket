@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.market.aching.R;
 import com.market.aching.ui.base.BaseActivity;
+import com.market.aching.utils.ScreenManager;
 
 import butterknife.BindView;
 import me.wangyuwei.particleview.ParticleView;
@@ -35,7 +36,7 @@ public class SplashActivity extends BaseActivity
             {
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
-                finish();
+                ScreenManager.getScreenManager().popActivityFinish();
             }
         });
         particleView.startAnim();
