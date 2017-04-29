@@ -1,4 +1,4 @@
-package com.market.aching.utils;
+package com.market.aching.util;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import com.market.aching.model.AccountInfo;
 
 import java.util.ArrayList;
+
+import static com.market.aching.util.AchingUtil.log;
 
 /**
  * Created by Administrator on 2017/3/14.
@@ -95,7 +97,6 @@ public class DBManager extends SQLiteOpenHelper
                 cursor.close();
             }
         }
-        ALog.d(TAG, "count " + count);
         if (count == 0)
         {
             // 插入

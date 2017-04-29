@@ -1,15 +1,9 @@
-package com.market.aching.utils;
+package com.market.aching.util;
 
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.market.aching.BaseApplication;
-import com.market.aching.R;
-import com.market.aching.ui.base.BaseActivity;
-
 import java.io.File;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Administrator on 2017/3/9.

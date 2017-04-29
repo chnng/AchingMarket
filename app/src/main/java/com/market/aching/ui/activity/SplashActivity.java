@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.market.aching.R;
 import com.market.aching.ui.base.BaseActivity;
-import com.market.aching.utils.ScreenManager;
+import com.market.aching.util.ScreenManager;
 
 import butterknife.BindView;
 import me.wangyuwei.particleview.ParticleView;

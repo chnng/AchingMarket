@@ -1,12 +1,9 @@
 package com.market.aching;
 
 import android.app.Application;
-import android.content.Context;
-import android.os.Build;
 
-import com.bumptech.glide.load.engine.cache.MemoryCache;
-import com.market.aching.utils.DBManager;
-import com.market.aching.utils.Global;
+import com.market.aching.util.DBManager;
+import com.market.aching.util.Global;
 
 /**
  * Created by Administrator on 2016/11/5.

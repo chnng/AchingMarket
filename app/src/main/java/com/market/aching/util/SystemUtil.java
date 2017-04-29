@@ -1,4 +1,4 @@
-package com.market.aching.utils;
+package com.market.aching.util;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -27,26 +27,6 @@ import java.util.regex.Pattern;
 public class SystemUtil
 {
     private static Toast toast;
-
-    /**
-     * 得到屏幕的宽度
-     */
-    public static int getScreenWidth()
-    {
-        DisplayMetrics dm = new DisplayMetrics();
-        ((WindowManager) BaseApplication.getInstance().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(dm);
-        return dm.widthPixels;
-    }
-
-    /**
-     * 得到屏幕的高度
-     */
-    public static int getScreenHeight()
-    {
-        DisplayMetrics dm = new DisplayMetrics();
-        ((WindowManager) BaseApplication.getInstance().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(dm);
-        return dm.heightPixels;
-    }
 
     /**
      * 得到屏幕的密度dpi
@@ -252,15 +232,6 @@ public class SystemUtil
     public static String getSystemVersion()
     {
         return android.os.Build.VERSION.RELEASE;
-    }
-
-    /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     */
-    public static int dip2px(float dpValue)
-    {
-        final float scale = BaseApplication.getInstance().getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
     }
 
     /**

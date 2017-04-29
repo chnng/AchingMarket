@@ -11,20 +11,30 @@
               android:orientation="vertical"
               tools:context=".ui.activity.LoginActivity">
 
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/login_logo_margin_top"
+        android:src="@mipmap/ic_shopping_cart_white_48dp"/>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/login_layout_text_input_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/login_edit_text_margin_bottom"
-        android:layout_marginTop="@dimen/login_edit_text_margin_top"
+        android:layout_marginBottom="@dimen/login_input_margin_bottom"
+        android:layout_marginTop="@dimen/login_input_margin_top"
         android:hint="@string/login_account"
         android:textColorHint="@color/white"
         app:counterEnabled="true"
-        app:counterMaxLength="11">
+        app:counterMaxLength="11"
+        app:counterTextAppearance="@style/TextAppearance.Design.Hint"
+        app:hintAnimationEnabled="true">
 
         <AutoCompleteTextView
-            android:layout_width="@dimen/activity_login_edit_text_width"
-            android:layout_height="@dimen/activity_login_edit_text_height"
+            android:id="@+id/autoCompleteTextView"
+            android:layout_width="@dimen/login_input_width"
+            android:layout_height="@dimen/login_input_height"
+            android:background="@drawable/login_input_bg"
             android:imeOptions="actionNext"
             android:inputType="number"
             android:maxLength="11"
@@ -36,27 +46,44 @@
         android:id="@+id/login_layout_text_input_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/login_edit_text_margin_bottom"
+        android:layout_marginBottom="@dimen/login_input_margin_bottom"
         android:hint="@string/login_password"
         android:textColorHint="@color/white"
-        app:counterEnabled="true">
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:counterTextAppearance="@style/TextAppearance.Design.Hint"
+        app:passwordToggleDrawable="@drawable/login_password_selector"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/white">
 
         <EditText
-            android:layout_width="@dimen/activity_login_edit_text_width"
-            android:layout_height="@dimen/activity_login_edit_text_height"
+            android:layout_width="@dimen/login_input_width"
+            android:layout_height="@dimen/login_input_height"
+            android:background="@drawable/login_input_bg"
             android:imeActionLabel="@string/login_confirm"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
+            android:maxLength="20"
             android:maxLines="1"
             android:textColor="@color/white"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/login_btn_confirm"
+        android:id="@+id/login_btn_login"
         style="?android:textAppearanceSmall"
-        android:layout_width="@dimen/activity_login_edit_text_width"
-        android:layout_height="@dimen/activity_login_edit_text_height"
+        android:layout_width="@dimen/login_input_width"
+        android:layout_height="@dimen/login_input_height"
+        android:layout_marginBottom="@dimen/login_btn_margin_bottom"
         android:background="@drawable/login_btn_bg_selector"
         android:text="@string/login_confirm"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/login_btn_register"
+        style="?android:textAppearanceSmall"
+        android:layout_width="@dimen/login_input_width"
+        android:layout_height="@dimen/login_input_height"
+        android:background="@drawable/login_btn_bg_selector"
+        android:text="@string/login_register"
         android:textColor="@color/white"/>
 </LinearLayout>
