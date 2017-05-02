@@ -121,7 +121,7 @@ public class LoginActivity extends BaseActivity
             }
         }
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(LoginActivity.this,
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(LoginActivity.this,
                 android.R.layout.simple_list_item_1, accountArray);
         mEditTextAccount.setAdapter(arrayAdapter);
         mEditTextAccount.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -134,11 +134,11 @@ public class LoginActivity extends BaseActivity
         });
     }
 
-    class LoginTextWatcher implements TextWatcher
+    private class LoginTextWatcher implements TextWatcher
     {
         private TextInputLayout textInputLayout;
 
-        public LoginTextWatcher(TextInputLayout textInputLayout)
+        private LoginTextWatcher(TextInputLayout textInputLayout)
         {
             this.textInputLayout = textInputLayout;
         }

@@ -15,16 +15,6 @@ public class BaseApplication extends Application
 
     public static BaseApplication getInstance()
     {
-        if (null == mApplication)
-        {
-            synchronized (BaseApplication.class)
-            {
-                if (null == mApplication)
-                {
-                    mApplication = new BaseApplication();
-                }
-            }
-        }
         return mApplication;
     }
 
@@ -32,6 +22,7 @@ public class BaseApplication extends Application
     public void onCreate()
     {
         super.onCreate();
+        mApplication = this;
         Global.getAppPath();
         DBManager.initDBManager(this);
     }

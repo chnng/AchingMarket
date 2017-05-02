@@ -1,6 +1,8 @@
 package com.market.aching.util;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
@@ -62,4 +64,24 @@ public class AchingUtil
                 "drawable", BaseApplication.getInstance().getPackageName());
     }
 
+    /**
+     * 判断网络是否连接
+     * @return
+     */
+    public static boolean isConnected() {
+
+        ConnectivityManager connectivity = (ConnectivityManager) BaseApplication.getInstance()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (null != connectivity) {
+
+            NetworkInfo info = connectivity.getActiveNetworkInfo();
+            if (null != info && info.isConnected()) {
+                if (info.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

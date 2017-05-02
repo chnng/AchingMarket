@@ -11,10 +11,12 @@ import android.view.MenuItem;
 
 import com.market.aching.R;
 import com.market.aching.ui.base.BaseActivity;
+import com.market.aching.ui.fragment.CategoryDetailFragment;
 import com.market.aching.ui.fragment.HomeFragment;
 
 import butterknife.BindView;
 
+import static com.market.aching.util.AchingUtil.dip2px;
 import static com.market.aching.util.AchingUtil.log;
 
 public class MainActivity extends BaseActivity
@@ -59,6 +61,7 @@ public class MainActivity extends BaseActivity
 
         // Set up the ViewPager with the sections adapter.
         mViewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager()));
+        int a = dip2px(555);
 
     }
 
@@ -145,7 +148,7 @@ public class MainActivity extends BaseActivity
         {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return HomeFragment.getInstance(position);
+            return CategoryDetailFragment.newInstance("外国文学");
         }
 
         @Override

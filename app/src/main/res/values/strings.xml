@@ -17,4 +17,12 @@
     <string name="title_home">图书</string>
     <string name="title_notifications">购物车</string>
     <string name="title_dashboard">设置</string>
+
+
+    <string name="comment_num">人点评</string>
+    <string name="no_brief">暂无简介。</string>
+    <string name="more_brief">更多评论</string>
+    <string name="comment">评论</string>
+    <string name="guess_you_like">猜你喜欢</string>
+    <string name="poor_network">网络连接失败，请检查网络</string>
 </resources>

@@ -16,11 +16,13 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends AppCompatActivity
 {
     private Unbinder unbinder;
+    public static BaseActivity activity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        activity = this;
         setContentView(getLayoutId());
         ScreenManager.getScreenManager().pushActivity(this);
         unbinder = ButterKnife.bind(this);
@@ -35,6 +37,21 @@ public abstract class BaseActivity extends AppCompatActivity
     protected abstract void initViews(Bundle savedInstanceState);
 
 //    protected abstract void initToolBar();
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        activity = this;
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        activity = null;
+    }
 
     @Override
     protected void onDestroy()
