@@ -21,6 +21,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activity.SplashActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Fullscreen.Splash">
@@ -32,15 +33,19 @@
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.LoginActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.BookDetailActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.BookDetail"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
     </application>

@@ -5,8 +5,6 @@ import java.util.Stack;
 
 import android.app.Activity;
 
-import static com.market.aching.util.AchingUtil.log;
-
 /**
  * activity管理类
  * */

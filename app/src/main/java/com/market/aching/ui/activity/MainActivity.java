@@ -8,15 +8,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.market.aching.R;
 import com.market.aching.ui.base.BaseActivity;
 import com.market.aching.ui.fragment.CategoryDetailFragment;
-import com.market.aching.ui.fragment.HomeFragment;
 
 import butterknife.BindView;
 
-import static com.market.aching.util.AchingUtil.dip2px;
 import static com.market.aching.util.AchingUtil.log;
 
 public class MainActivity extends BaseActivity
@@ -61,8 +60,7 @@ public class MainActivity extends BaseActivity
 
         // Set up the ViewPager with the sections adapter.
         mViewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager()));
-        int a = dip2px(555);
-
+        mViewPager.addOnPageChangeListener(mOnPageChangeListener);
     }
 
 
@@ -73,7 +71,7 @@ public class MainActivity extends BaseActivity
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item)
         {
-            log(item.getOrder() + item.getGroupId());
+            log("onNavigationItemSelected " + item);
             switch (item.getItemId())
             {
                 case R.id.navigation_home:
@@ -89,6 +87,39 @@ public class MainActivity extends BaseActivity
             return false;
         }
 
+    };
+
+    private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener()
+    {
+        private MenuItem prevMenuItem;
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+
+        }
+
+        @Override
+        public void onPageSelected(int position)
+        {
+            log("onPageSelected " + position);
+            if (prevMenuItem != null)
+            {
+                prevMenuItem.setChecked(false);
+            }
+            else
+            {
+                mNavigation.getMenu().getItem(0).setChecked(false);
+            }
+            mNavigation.getMenu().getItem(position).setChecked(true);
+            prevMenuItem = mNavigation.getMenu().getItem(position);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state)
+        {
+
+        }
     };
 
 
@@ -148,7 +179,12 @@ public class MainActivity extends BaseActivity
         {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return CategoryDetailFragment.newInstance("外国文学");
+//            switch (position)
+//            {
+//                case 0:
+//                    break;
+//            }
+            return CategoryDetailFragment.newInstance(position);
         }
 
         @Override

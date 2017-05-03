@@ -46,10 +46,11 @@ public class CategoryDetailFragment extends BaseFragment implements IBookListVie
     private BookListPresenterImpl bookListPresenter;
     private int spanCount = 1;
 
-    public static CategoryDetailFragment newInstance(String child) {
+    public static CategoryDetailFragment newInstance(int position) {
 
         Bundle args = new Bundle();
-        args.putString("child", child);
+        args.putString("child", "外国文学");
+        args.putInt("position", position);
         CategoryDetailFragment fragment = new CategoryDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -175,6 +176,19 @@ public class CategoryDetailFragment extends BaseFragment implements IBookListVie
     protected void initViews(Bundle savedInstanceState)
     {
         tag = getArguments().getString("child");
+        int position = getArguments().getInt("position");
+        switch (position)
+        {
+            case 0:
+                setTitle(getString(R.string.title_home));
+                break;
+            case 1:
+                setTitle(getString(R.string.title_notifications));
+                break;
+            case 2:
+                setTitle(getString(R.string.title_dashboard));
+                break;
+        }
         initEvents();
         onRefresh();
     }

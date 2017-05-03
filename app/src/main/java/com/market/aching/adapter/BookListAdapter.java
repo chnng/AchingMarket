@@ -95,7 +95,7 @@ public class BookListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         bitmap = imageDrawable.getBitmap();
                         b.putParcelable("book_img", bitmap);
                     }
-                    Intent intent = new Intent(BaseActivity.activity, BookDetailActivity.class);
+                    Intent intent = new Intent(BaseApplication.getInstance(), BookDetailActivity.class);
                     intent.putExtras(b);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         if (BaseActivity.activity == null) {
