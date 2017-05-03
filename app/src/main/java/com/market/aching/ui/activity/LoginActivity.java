@@ -20,8 +20,10 @@ import android.widget.TextView;
 
 import com.market.aching.R;
 import com.market.aching.model.AccountInfo;
+import com.market.aching.model.BookInfoResponse;
+import com.market.aching.model.OrderInfo;
 import com.market.aching.ui.base.BaseActivity;
-import com.market.aching.util.DBManager;
+import com.market.aching.database.DataBaseHelper;
 import com.market.aching.util.ScreenManager;
 
 import java.util.ArrayList;
@@ -99,7 +101,7 @@ public class LoginActivity extends BaseActivity
 //        };
 //        mEditTextAccount.setFilters(new InputFilter[]{filter});
 
-        mAccountInfoList = DBManager.getInstance().queryAllAccount();
+        mAccountInfoList = DataBaseHelper.getInstance().queryAllAccount();
         String[] accountArray = new String[mAccountInfoList.size()];
         for (int i = 0; i < mAccountInfoList.size(); i++)
         {
@@ -261,8 +263,14 @@ public class LoginActivity extends BaseActivity
                         }
                         showSnackBar(getString(R.string.login_confirm_success));
                         accountTemp.loginState = 1;
-                        DBManager.getInstance().updateAccount(accountTemp);
-
+                        DataBaseHelper.getInstance().updateAccount(accountTemp);
+                        final OrderInfo orderInfo = new OrderInfo();
+                        orderInfo.uid = accountTemp.uid;
+                        orderInfo.bookInfo = new BookInfoResponse();
+                        orderInfo.bookInfo.setId("13");
+                        orderInfo.address = "lalala";
+//                        BookInfoResponse bookInfoResponse = orderInfo.bookInfo.toString();
+                        DataBaseHelper.getInstance().updateOrder(orderInfo);
                         Intent intent = new Intent(this, MainActivity.class);
                         startActivity(intent);
                         ScreenManager.getScreenManager().popActivityFinish();
@@ -306,7 +314,7 @@ public class LoginActivity extends BaseActivity
             accountInfo.account = account;
             accountInfo.password = password.getBytes();
             accountInfo.loginState = 1;
-            DBManager.getInstance().updateAccount(accountInfo);
+            DataBaseHelper.getInstance().updateAccount(accountInfo);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             ScreenManager.getScreenManager().popActivityFinish();
@@ -320,14 +328,15 @@ public class LoginActivity extends BaseActivity
         if (msg.equals(getString(R.string.login_error_incorrect)))
         {
             Snackbar.make(mEditTextAccount, msg, Snackbar.LENGTH_SHORT)
-                    .setAction(R.string.login_confirm_retrieve, new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-
-                }
-            }).show();
+//                    .setAction(R.string.login_confirm_retrieve, new View.OnClickListener()
+//            {
+//                @Override
+//                public void onClick(View v)
+//                {
+//
+//                }
+//            })
+                    .show();
         }
         else
         {

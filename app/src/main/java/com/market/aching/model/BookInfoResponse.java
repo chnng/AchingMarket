@@ -1,6 +1,7 @@
 package com.market.aching.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -215,5 +216,33 @@ public class BookInfoResponse implements Serializable {
             return this.author[0].split("、")[0] + "/" + this.publisher + "/" + this.pubdate;
         }
         return "-";
+    }
+
+    @Override
+    public String toString()
+    {
+        return "BookInfoResponse{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", subtitle='" + subtitle + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", rating=" + rating +
+                ", author=" + Arrays.toString(author) +
+                ", translator=" + Arrays.toString(translator) +
+                ", pubdate='" + pubdate + '\'' +
+                ", tags=" + tags +
+                ", image='" + image + '\'' +
+                ", ebook_url='" + ebook_url + '\'' +
+                ", pages='" + pages + '\'' +
+                ", binding='" + binding + '\'' +
+                ", origin_title='" + origin_title + '\'' +
+                ", images=" + images +
+                ", isbn13='" + isbn13 + '\'' +
+                ", author_intro='" + author_intro + '\'' +
+                ", summary='" + summary + '\'' +
+                ", ebook_price='" + ebook_price + '\'' +
+                ", price='" + price + '\'' +
+                ", series=" + series +
+                '}';
     }
 }

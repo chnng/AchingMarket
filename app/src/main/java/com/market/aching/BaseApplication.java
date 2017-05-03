@@ -2,7 +2,7 @@ package com.market.aching;
 
 import android.app.Application;
 
-import com.market.aching.util.DBManager;
+import com.market.aching.database.DataBaseHelper;
 import com.market.aching.util.Global;
 
 /**
@@ -24,7 +24,7 @@ public class BaseApplication extends Application
         super.onCreate();
         mApplication = this;
         Global.getAppPath();
-        DBManager.initDBManager(this);
+        DataBaseHelper.initDBManager(this);
     }
 ///**
 // *
