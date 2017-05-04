@@ -6,11 +6,13 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +25,8 @@ import com.market.aching.ui.activity.BookDetailActivity;
 import com.market.aching.ui.base.BaseActivity;
 
 import java.util.List;
+
+import static com.market.aching.R.id.ratingBar_hots;
 
 /**
  * Author   :hymanme
@@ -76,6 +80,14 @@ public class BookListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof BookListHolder) {
             final BookInfoResponse bookInfo = bookInfoResponses.get(position);
+            if (bookInfo.getQuantity() != 0)
+            {
+                ((BookListHolder) holder).cb_book.setVisibility(View.VISIBLE);
+                ((BookListHolder) holder).cb_book.setOnCheckedChangeListener((buttonView, isChecked)
+                        -> bookInfo.setChecked(isChecked));
+                ((BookListHolder) holder).tv_book_quantity.setVisibility(View.VISIBLE);
+                ((BookListHolder) holder).tv_book_quantity.setText("X" + bookInfo.getQuantity());
+            }
             Glide.with(mContext)
                     .load(bookInfo.getImages().getLarge())
                     .into(((BookListHolder) holder).iv_book_img);
@@ -123,8 +135,10 @@ public class BookListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     class BookListHolder extends RecyclerView.ViewHolder {
 
+        private final AppCompatCheckBox cb_book;
         private final ImageView iv_book_img;
         private final TextView tv_book_title;
+        private final TextView tv_book_quantity;
         private final AppCompatRatingBar ratingBar_hots;
         private final TextView tv_hots_num;
         private final TextView tv_book_info;
@@ -132,8 +146,10 @@ public class BookListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public BookListHolder(View itemView) {
             super(itemView);
+            cb_book = (AppCompatCheckBox) itemView.findViewById(R.id.checkBox);
             iv_book_img = (ImageView) itemView.findViewById(R.id.iv_book_img);
             tv_book_title = (TextView) itemView.findViewById(R.id.tv_book_title);
+            tv_book_quantity = (TextView) itemView.findViewById(R.id.tv_book_quantity);
             ratingBar_hots = (AppCompatRatingBar) itemView.findViewById(R.id.ratingBar_hots);
             tv_hots_num = (TextView) itemView.findViewById(R.id.tv_hots_num);
             tv_book_info = (TextView) itemView.findViewById(R.id.tv_book_info);

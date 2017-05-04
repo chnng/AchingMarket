@@ -148,15 +148,23 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView
         mFab.setOnClickListener(v ->
                 {
                     OrderInfo orderInfo = new OrderInfo();
-                    orderInfo.account = Global.getAccountInfo().account;
-                    orderInfo.bookID = Integer.parseInt(mBookInfoResponse.getId());
-                    orderInfo.orderState = 0;
-                    orderInfo.quantity = 1;
-                    orderInfo.time = System.currentTimeMillis();
-                    orderInfo.address = Global.getAccountInfo().address;
-                    orderInfo.bookInfo = mBookInfoResponse;
-                    orderManager.updateOrder(orderInfo);
-                    Snackbar.make(v, "添加购物车成功", Snackbar.LENGTH_SHORT).show();
+                    try
+                    {
+                        orderInfo.bookInfo = (BookInfoResponse) mBookInfoResponse.clone();
+                    } catch (CloneNotSupportedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    if (null != orderInfo.bookInfo)
+                    {
+                        orderInfo.account = Global.getAccountInfo().account;
+                        orderInfo.orderState = 0;
+                        orderInfo.time = System.currentTimeMillis();
+                        orderInfo.address = Global.getAccountInfo().address;
+                        orderInfo.bookInfo.setQuantity(1);
+                        orderManager.updateOrder(orderInfo);
+                        Snackbar.make(v, "添加购物车成功", Snackbar.LENGTH_SHORT).show();
+                    }
                 }
         );
         bookDetailPresenter.loadReviews(mBookInfoResponse.getId(), PAGE * REVIEWS_COUNT, REVIEWS_COUNT, COMMENT_FIELDS);

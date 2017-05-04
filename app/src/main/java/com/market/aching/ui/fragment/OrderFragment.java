@@ -73,14 +73,29 @@ public class OrderFragment extends BaseFragment implements SwipeRefreshLayout.On
             }
             else
             {
-                int[] array = new int[bookInfoResponses.size()];
-                for (int i = 0; i < bookInfoResponses.size(); i++)
+                List<String> bookIDs = new ArrayList<>();
+                for (BookInfoResponse bookInfoResponse : bookInfoResponses)
                 {
-                    array[i] = Integer.parseInt(bookInfoResponses.get(i).getId());
+                    if (bookInfoResponse.isChecked())
+                    {
+                        bookIDs.add(bookInfoResponse.getId());
+                    }
                 }
-                mOrderManager.submitOrder(array);
-                onRefresh();
-                Snackbar.make(v, "购买成功", Snackbar.LENGTH_SHORT).show();
+//                int[] array = new int[bookInfoResponses.size()];
+//                for (int i = 0; i < bookInfoResponses.size(); i++)
+//                {
+//                    array[i] = Integer.parseInt(bookInfoResponses.get(i).getId());
+//                }
+                if (bookIDs.isEmpty())
+                {
+                    Snackbar.make(v, "请选择一本图书购买", Snackbar.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    mOrderManager.submitOrder(bookIDs);
+                    onRefresh();
+                    Snackbar.make(v, "购买成功", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
         initEvents();

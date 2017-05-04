@@ -41,7 +41,7 @@ public class DatabaseConst
     static final String SQL_CREATE_ORDER_TABLE =
             "CREATE TABLE " + TABLE_ORDER + "%d("
                     + FIELD_ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + FIELD_ORDER_BOOK_ID + " INTEGER,"
+                    + FIELD_ORDER_BOOK_ID + " VARCHAR,"
                     + FIELD_ORDER_STATE + " INTEGER,"
                     + FIELD_ORDER_QUANTITY + " INTEGER,"
                     + FIELD_ORDER_TIME + " INTEGER,"

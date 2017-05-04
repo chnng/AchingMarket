@@ -10,7 +10,7 @@ import java.util.List;
  * Create at 2016/1/8
  * Description:
  */
-public class BookInfoResponse implements Serializable {
+public class BookInfoResponse implements Serializable, Cloneable {
     public static final long serialVersionUID = 7060254125600464481L;
     public static final String serialVersionName = "bookInfo";
     private String id;
@@ -34,6 +34,9 @@ public class BookInfoResponse implements Serializable {
     private String ebook_price;
     private String price;
     private SeriesBean series;
+
+    private boolean isChecked;
+    private int quantity;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -211,6 +214,26 @@ public class BookInfoResponse implements Serializable {
         this.series = series;
     }
 
+    public boolean isChecked()
+    {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked)
+    {
+        isChecked = checked;
+    }
+
+    public int getQuantity()
+    {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity)
+    {
+        this.quantity = quantity;
+    }
+
     public String getInfoString() {
         if (this.author.length > 0) {
             return this.author[0].split("、")[0] + "/" + this.publisher + "/" + this.pubdate;
@@ -244,5 +267,11 @@ public class BookInfoResponse implements Serializable {
                 ", price='" + price + '\'' +
                 ", series=" + series +
                 '}';
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
     }
 }

@@ -10,6 +10,7 @@ import com.market.aching.model.OrderInfo;
 import com.market.aching.util.Global;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.market.aching.database.DatabaseConst.FIELD_ORDER_ADDRESS;
 import static com.market.aching.database.DatabaseConst.FIELD_ORDER_BOOK_ID;
@@ -39,7 +40,7 @@ public class OrderManager
                         + TABLE_ORDER + Global.getAccountInfo().account
                         + " where " + FIELD_ORDER_BOOK_ID + "=? and "
                         + FIELD_ORDER_STATE + "=?",
-                new String[]{String.valueOf(orderInfo.bookID), String.valueOf(0)});
+                new String[]{orderInfo.bookInfo.getId(), String.valueOf(0)});
         if (cursor.moveToFirst())
         {
             count = cursor.getInt(cursor.getColumnIndex("counts"));
@@ -49,9 +50,9 @@ public class OrderManager
             ContentValues contentValues = new ContentValues();
             Gson gson = new Gson();
             String bookInfoJson = gson.toJson(orderInfo.bookInfo);
-            contentValues.put(FIELD_ORDER_BOOK_ID, orderInfo.bookID);
+            contentValues.put(FIELD_ORDER_BOOK_ID, orderInfo.bookInfo.getId());
             contentValues.put(FIELD_ORDER_STATE, orderInfo.orderState);
-            contentValues.put(FIELD_ORDER_QUANTITY, orderInfo.quantity);
+            contentValues.put(FIELD_ORDER_QUANTITY, orderInfo.bookInfo.getQuantity());
             contentValues.put(FIELD_ORDER_ADDRESS, orderInfo.address);
             contentValues.put(FIELD_ORDER_BOOK_INFO, bookInfoJson);
             database.insert(TABLE_ORDER + orderInfo.account, null, contentValues);
@@ -62,7 +63,7 @@ public class OrderManager
                             + TABLE_ORDER + Global.getAccountInfo().account
                             + " where " + FIELD_ORDER_BOOK_ID + "=? and "
                             + FIELD_ORDER_STATE + "=?"
-                    , new String[]{String.valueOf(orderInfo.bookID), "0"});
+                    , new String[]{orderInfo.bookInfo.getId(), "0"});
             if (cursor.moveToFirst())
             {
                 int indexOrderID = cursor.getColumnIndex(FIELD_ORDER_ID);
@@ -108,12 +109,13 @@ public class OrderManager
                 {
                     OrderInfo info = new OrderInfo();
                     info.orderID = cursor.getInt(indexOrderID);
-                    info.bookID = cursor.getInt(indexBookID);
+//                    info.bookID = cursor.getInt(indexBookID);
                     info.orderState = cursor.getInt(indexState);
-                    info.quantity = cursor.getInt(indexQuantity);
+//                    info.quantity = cursor.getInt(indexQuantity);
                     info.time = cursor.getInt(indexTime);
                     info.address = cursor.getString(indexAddress);
                     info.bookInfo = gson.fromJson(cursor.getString(indexBook), BookInfoResponse.class);
+                    info.bookInfo.setQuantity(cursor.getInt(indexQuantity));
                     infos.add(info);
                 }
             }
@@ -130,7 +132,7 @@ public class OrderManager
         return infos;
     }
 
-    public synchronized void submitOrder(int[] bookIDs)
+    public synchronized void submitOrder(List<String> bookIDs)
     {
 //        Cursor cursor;
         SQLiteDatabase database = DatabaseHelper.getInstance().getWritableDatabase();
@@ -139,7 +141,7 @@ public class OrderManager
 //                        + Global.getAccountInfo().account
 //                        + " where " + FIELD_ORDER_STATE + "=?",
 //                new String[]{String.valueOf(0)});
-        for (int bookID : bookIDs)
+        for (String bookID : bookIDs)
         {
             database.execSQL("update " +
                     TABLE_ORDER + Global.getAccountInfo().account + " set " + FIELD_ORDER_STATE +
