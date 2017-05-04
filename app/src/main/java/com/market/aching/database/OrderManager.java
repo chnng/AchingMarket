@@ -19,7 +19,6 @@ import static com.market.aching.database.DatabaseConst.FIELD_ORDER_QUANTITY;
 import static com.market.aching.database.DatabaseConst.FIELD_ORDER_STATE;
 import static com.market.aching.database.DatabaseConst.FIELD_ORDER_TIME;
 import static com.market.aching.database.DatabaseConst.TABLE_ORDER;
-import static com.market.aching.util.AchingUtil.log;
 
 /**
  * Created by chnng on 2017/5/4.
@@ -68,10 +67,10 @@ public class OrderManager
             {
                 int indexOrderID = cursor.getColumnIndex(FIELD_ORDER_ID);
                 int indexQuantity = cursor.getColumnIndex(FIELD_ORDER_QUANTITY);
-                log("index " + indexOrderID + " " + indexQuantity);
+//                log("index " + indexOrderID + " " + indexQuantity);
                 int orderID = cursor.getInt(indexOrderID);
                 int quantity = cursor.getInt(indexQuantity) + 1;
-                log("quantity " + quantity);
+//                log("quantity " + quantity);
                 database.execSQL("update " +
                         TABLE_ORDER + Global.getAccountInfo().account + " set " + FIELD_ORDER_QUANTITY +
                         "=" + quantity + " where " + FIELD_ORDER_ID + "=" + orderID);
@@ -131,7 +130,7 @@ public class OrderManager
         return infos;
     }
 
-    public void submitOrder(int[] oids)
+    public synchronized void submitOrder(int[] bookIDs)
     {
 //        Cursor cursor;
         SQLiteDatabase database = DatabaseHelper.getInstance().getWritableDatabase();
@@ -140,11 +139,11 @@ public class OrderManager
 //                        + Global.getAccountInfo().account
 //                        + " where " + FIELD_ORDER_STATE + "=?",
 //                new String[]{String.valueOf(0)});
-        for (int oid : oids)
+        for (int bookID : bookIDs)
         {
             database.execSQL("update " +
                     TABLE_ORDER + Global.getAccountInfo().account + " set " + FIELD_ORDER_STATE +
-                    "=1 where " + FIELD_ORDER_ID + "=" + oid);
+                    "=1 where " + FIELD_ORDER_BOOK_ID + "=" + bookID + " and " + FIELD_ORDER_STATE + "=0");
         }
 //        cursor.close();
     }

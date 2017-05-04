@@ -3,6 +3,7 @@ package com.market.aching.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -44,6 +45,9 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.navigation)
     BottomNavigationView mNavigation;
 
+    private static final int EXIT_APP_DELAY = 1000;
+    private long lastTime = 0;
+
     @Override
     protected int getLayoutId()
     {
@@ -73,7 +77,7 @@ public class MainActivity extends BaseActivity
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item)
         {
-            log("onNavigationItemSelected " + item);
+//            log("onNavigationItemSelected " + item);
             switch (item.getItemId())
             {
                 case R.id.navigation_home:
@@ -104,12 +108,11 @@ public class MainActivity extends BaseActivity
         @Override
         public void onPageSelected(int position)
         {
-            log("onPageSelected " + position);
+//            log("onPageSelected " + position);
             if (prevMenuItem != null)
             {
                 prevMenuItem.setChecked(false);
-            }
-            else
+            } else
             {
                 mNavigation.getMenu().getItem(0).setChecked(false);
             }
@@ -217,6 +220,22 @@ public class MainActivity extends BaseActivity
                     return "SECTION 3";
             }
             return null;
+        }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if ((System.currentTimeMillis() - lastTime) > EXIT_APP_DELAY)
+        {
+            Snackbar.make(mViewPager, getString(R.string.press_twice_exit), Snackbar.LENGTH_SHORT)
+                    .setAction(R.string.exit_directly, v -> super.onBackPressed()).show();
+            lastTime = System.currentTimeMillis();
+        }
+        else
+        {
+//            moveTaskToBack(true);
+            super.onBackPressed();
         }
     }
 }

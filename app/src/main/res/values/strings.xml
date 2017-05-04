@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">AchingMarket</string>
 
+    <string name="press_twice_exit">再次按返回键退出</string>
+    <string name="exit_directly">直接退出</string>
+
     <string name="login_account">帐号</string>
     <string name="login_password">密码</string>
     <string name="login_confirm">登录</string>

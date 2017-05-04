@@ -1,11 +1,14 @@
 package com.market.aching.ui.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.market.aching.R;
 import com.market.aching.adapter.BookListAdapter;
@@ -21,6 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.market.aching.database.DatabaseConst.UNSUBMITTED;
+import static com.market.aching.util.AchingUtil.log;
 
 /**
  * Created by Administrator on 2017/5/4.
@@ -32,6 +36,8 @@ public class OrderFragment extends BaseFragment implements SwipeRefreshLayout.On
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_widget)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
 
     private GridLayoutManager mLayoutManager;
     private BookListAdapter mListAdapter;
@@ -59,6 +65,24 @@ public class OrderFragment extends BaseFragment implements SwipeRefreshLayout.On
     @Override
     protected void initViews(Bundle savedInstanceState)
     {
+        mFab.setVisibility(View.VISIBLE);
+        mFab.setOnClickListener(v -> {
+            if (bookInfoResponses.isEmpty())
+            {
+                Snackbar.make(v, "您的购物车空空如也", Snackbar.LENGTH_SHORT).show();
+            }
+            else
+            {
+                int[] array = new int[bookInfoResponses.size()];
+                for (int i = 0; i < bookInfoResponses.size(); i++)
+                {
+                    array[i] = Integer.parseInt(bookInfoResponses.get(i).getId());
+                }
+                mOrderManager.submitOrder(array);
+                onRefresh();
+                Snackbar.make(v, "购买成功", Snackbar.LENGTH_SHORT).show();
+            }
+        });
         initEvents();
     }
 
@@ -66,10 +90,10 @@ public class OrderFragment extends BaseFragment implements SwipeRefreshLayout.On
         spanCount = getResources().getInteger(R.integer.home_span_count);
         bookInfoResponses = new ArrayList<>();
         mOrderManager = new OrderManager();
-        for (OrderInfo orderInfo : mOrderManager.queryAllOrder(UNSUBMITTED))
-        {
-            bookInfoResponses.add(orderInfo.bookInfo);
-        }
+//        for (OrderInfo orderInfo : mOrderManager.queryAllOrder(UNSUBMITTED))
+//        {
+//            bookInfoResponses.add(orderInfo.bookInfo);
+//        }
         mSwipeRefreshLayout.setColorSchemeResources(R.color.recycler_color1, R.color.recycler_color2,
                 R.color.recycler_color3, R.color.recycler_color4);
 
@@ -125,5 +149,20 @@ public class OrderFragment extends BaseFragment implements SwipeRefreshLayout.On
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        onRefresh();
+        log("onResume");
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden)
+    {
+        super.onHiddenChanged(hidden);
+        log("onHiddenChanged " + hidden);
     }
 }

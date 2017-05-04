@@ -155,8 +155,8 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView
                     orderInfo.time = System.currentTimeMillis();
                     orderInfo.address = Global.getAccountInfo().address;
                     orderInfo.bookInfo = mBookInfoResponse;
-
                     orderManager.updateOrder(orderInfo);
+                    Snackbar.make(v, "添加购物车成功", Snackbar.LENGTH_SHORT).show();
                 }
         );
         bookDetailPresenter.loadReviews(mBookInfoResponse.getId(), PAGE * REVIEWS_COUNT, REVIEWS_COUNT, COMMENT_FIELDS);
