@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.market.aching.R;
 import com.market.aching.ui.base.BaseActivity;
-import com.market.aching.ui.fragment.CategoryDetailFragment;
+import com.market.aching.ui.fragment.HomeFragment;
+import com.market.aching.ui.fragment.OrderFragment;
+import com.market.aching.ui.fragment.SettingFragment;
 
 import butterknife.BindView;
 
@@ -179,12 +181,20 @@ public class MainActivity extends BaseActivity
         {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-//            switch (position)
-//            {
-//                case 0:
-//                    break;
-//            }
-            return CategoryDetailFragment.newInstance(position);
+            Fragment fragment = null;
+            switch (position)
+            {
+                case 0:
+                    fragment = HomeFragment.newInstance();
+                    break;
+                case 1:
+                    fragment = OrderFragment.newInstance();
+                    break;
+                case 2:
+                    fragment = SettingFragment.newInstance();
+                    break;
+            }
+            return fragment;
         }
 
         @Override

@@ -3,7 +3,10 @@ package com.market.aching.ui.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.market.aching.R;
 import com.market.aching.util.ScreenManager;
 
 import butterknife.ButterKnife;
@@ -38,6 +41,32 @@ public abstract class BaseActivity extends AppCompatActivity
 
 //    protected abstract void initToolBar();
 
+//    /**
+//     * 菜单按钮初始化
+//     *
+//     * @param menu
+//     * @return
+//     */
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu)
+//    {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_empty, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item)
+//    {
+//        switch (item.getItemId())
+//        {
+//            case android.R.id.home:
+//                this.finish();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     @Override
     protected void onResume()

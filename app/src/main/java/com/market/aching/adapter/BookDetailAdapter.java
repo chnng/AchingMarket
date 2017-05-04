@@ -192,7 +192,7 @@ public class BookDetailAdapter extends RecyclerView.Adapter {
 //                    public void onClick(View v) {
 //                        Intent intent = new Intent(UIUtils.getContext(), BookReviewsActivity.class);
 //                        intent.putExtra("bookId", mBookInfo.getId());
-//                        intent.putExtra("bookName", mBookInfo.getTitle());
+//                        intent.putExtra("bookName", mBookInfo.getTitleID());
 //                        UIUtils.startActivity(intent);
 //                    }
 //                });

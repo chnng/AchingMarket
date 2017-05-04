@@ -19,11 +19,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.market.aching.R;
+import com.market.aching.database.AccountManager;
 import com.market.aching.model.AccountInfo;
-import com.market.aching.model.BookInfoResponse;
-import com.market.aching.model.OrderInfo;
 import com.market.aching.ui.base.BaseActivity;
-import com.market.aching.database.DataBaseHelper;
+import com.market.aching.util.Global;
 import com.market.aching.util.ScreenManager;
 
 import java.util.ArrayList;
@@ -31,6 +30,8 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.market.aching.util.AchingUtil.log;
 
 /**
  * Created by Administrator on 2017/2/28.
@@ -46,8 +47,8 @@ public class LoginActivity extends BaseActivity
     private EditText mEditTextPassword;
     private ArrayList<AccountInfo> mAccountInfoList;
     private InputMethodManager mInputMethodManager;
+    private AccountManager mAccountManager;
 
-    //    private static final int INPUT_TYPE_ACCOUNT = 0, INPUT_TYPE_PASSWORD = 1;
     private enum InputType
     {
         ACCOUNT, PASSWORD
@@ -101,12 +102,13 @@ public class LoginActivity extends BaseActivity
 //        };
 //        mEditTextAccount.setFilters(new InputFilter[]{filter});
 
-        mAccountInfoList = DataBaseHelper.getInstance().queryAllAccount();
+        mAccountManager = new AccountManager();
+        mAccountInfoList = mAccountManager.queryAllAccount();
         String[] accountArray = new String[mAccountInfoList.size()];
         for (int i = 0; i < mAccountInfoList.size(); i++)
         {
             final AccountInfo info = mAccountInfoList.get(i);
-            accountArray[i] = info.account;
+            accountArray[i] = String.valueOf(info.account);
             if (info.loginState == 1)
             {
                 Handler handler = new Handler(getMainLooper());
@@ -116,7 +118,7 @@ public class LoginActivity extends BaseActivity
                     public void run()
                     {
                         mTextInputAccount.refreshDrawableState();
-                        mEditTextAccount.setText(info.account);
+                        mEditTextAccount.setText(String.valueOf(info.account));
                         mEditTextPassword.setText(new String(info.password));
                     }
                 }, 500);
@@ -244,7 +246,7 @@ public class LoginActivity extends BaseActivity
         } else
         {
             // Store values at the time of the login attempt.
-            String account = mEditTextAccount.getText().toString();
+            int account = Integer.parseInt(String.valueOf(mEditTextAccount.getText()));
             String password = mEditTextPassword.getText().toString();
             if (mAccountInfoList.isEmpty())
             {
@@ -254,7 +256,7 @@ public class LoginActivity extends BaseActivity
             {
                 for (AccountInfo accountTemp : mAccountInfoList)
                 {
-                    if (accountTemp.account.equals(account))
+                    if (accountTemp.account == account)
                     {
                         if (!new String(accountTemp.password).equals(password))
                         {
@@ -262,18 +264,7 @@ public class LoginActivity extends BaseActivity
                             return false;
                         }
                         showSnackBar(getString(R.string.login_confirm_success));
-                        accountTemp.loginState = 1;
-                        DataBaseHelper.getInstance().updateAccount(accountTemp);
-                        final OrderInfo orderInfo = new OrderInfo();
-                        orderInfo.uid = accountTemp.uid;
-                        orderInfo.bookInfo = new BookInfoResponse();
-                        orderInfo.bookInfo.setId("13");
-                        orderInfo.address = "lalala";
-//                        BookInfoResponse bookInfoResponse = orderInfo.bookInfo.toString();
-                        DataBaseHelper.getInstance().updateOrder(orderInfo);
-                        Intent intent = new Intent(this, MainActivity.class);
-                        startActivity(intent);
-                        ScreenManager.getScreenManager().popActivityFinish();
+                        loginSuccess(accountTemp);
                         return true;
                     }
                 }
@@ -294,14 +285,14 @@ public class LoginActivity extends BaseActivity
         } else
         {
             // Store values at the time of the register attempt.
-            String account = mEditTextAccount.getText().toString();
+            int account = Integer.parseInt(String.valueOf(mEditTextAccount.getText()));
             String password = mEditTextPassword.getText().toString();
 
             if (!mAccountInfoList.isEmpty())
             {
                 for (AccountInfo accountTemp : mAccountInfoList)
                 {
-                    if (accountTemp.account.equals(account))
+                    if (accountTemp.account == account)
                     {
                         showSnackBar(getString(R.string.login_error_is_exist));
                         return;
@@ -310,14 +301,9 @@ public class LoginActivity extends BaseActivity
             }
             showSnackBar(getString(R.string.login_register_success));
             AccountInfo accountInfo = new AccountInfo();
-            accountInfo.uid = Integer.parseInt(account);
             accountInfo.account = account;
             accountInfo.password = password.getBytes();
-            accountInfo.loginState = 1;
-            DataBaseHelper.getInstance().updateAccount(accountInfo);
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            ScreenManager.getScreenManager().popActivityFinish();
+            loginSuccess(accountInfo);
         }
     }
 
@@ -342,5 +328,15 @@ public class LoginActivity extends BaseActivity
         {
             Snackbar.make(mEditTextAccount, msg, Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    private void loginSuccess(AccountInfo account)
+    {
+        Global.setAccountInfo(account);
+        account.loginState = 1;
+        mAccountManager.updateAccount(account);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        ScreenManager.getScreenManager().popActivityFinish();
     }
 }

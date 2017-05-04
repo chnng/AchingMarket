@@ -1,6 +1,5 @@
 package com.market.aching.ui.base;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,17 +23,20 @@ public abstract class BaseFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(getLayoutId(), container, false);
+        View rootView = inflater.inflate(getLayoutID(), container, false);
         ButterKnife.bind(this, rootView);
-        final Toolbar toolbar = (Toolbar) rootView.findViewById(getToolBar());
+        final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(getTitleID()));
         ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
         initViews(savedInstanceState);
         return rootView;
     }
 
-    protected abstract int getToolBar();
+//    protected abstract int getToolBar();
 
-    protected abstract int getLayoutId();
+    protected abstract int getLayoutID();
+
+    protected abstract int getTitleID();
 
     protected abstract void initViews(Bundle savedInstanceState);
 

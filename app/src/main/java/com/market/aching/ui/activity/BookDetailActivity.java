@@ -1,6 +1,5 @@
 package com.market.aching.ui.activity;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.os.Build;
@@ -15,20 +14,22 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.market.aching.R;
 import com.market.aching.adapter.BookDetailAdapter;
+import com.market.aching.database.OrderManager;
 import com.market.aching.model.BookInfoResponse;
 import com.market.aching.model.BookReviewsListResponse;
 import com.market.aching.model.BookSeriesListResponse;
+import com.market.aching.model.OrderInfo;
 import com.market.aching.presenter.impl.BookDetailPresenterImpl;
 import com.market.aching.presenter.IBookDetailView;
 import com.market.aching.ui.base.BaseActivity;
 import com.market.aching.util.Blur;
+import com.market.aching.util.Global;
 
 import butterknife.BindView;
 
@@ -72,6 +73,9 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView
         super.onCreate(savedInstanceState);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setNavigationIcon(AppCompatResources.getDrawable(this, R.drawable.ic_action_clear));
+        setSupportActionBar(mToolbar);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -106,8 +110,17 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView
         Bitmap book_img = getIntent().getParcelableExtra("book_img");
         if (book_img != null) {
             iv_book_img.setImageBitmap(book_img);
-            iv_book_bg.setImageBitmap(Blur.apply(book_img));
-            iv_book_bg.setAlpha(0.9f);
+            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP))
+            {
+                iv_book_bg.setImageBitmap(Blur.apply(book_img));
+                iv_book_bg.setAlpha(0.9f);
+            }
+            else
+            {
+                iv_book_bg.setImageBitmap(book_img);
+                iv_book_bg.setAlpha(0.7f);
+            }
+//            iv_book_bg.setImageBitmap(FastBlurUtil.doBlur(book_img, 5, true));
         } else {
             Glide.with(this)
                     .load(mBookInfoResponse.getImages().getLarge())
@@ -116,12 +129,36 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             iv_book_img.setImageBitmap(resource);
-                            iv_book_bg.setImageBitmap(Blur.apply(resource));
-                            iv_book_bg.setAlpha(0.9f);
+                            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP))
+                            {
+                                iv_book_bg.setImageBitmap(Blur.apply(resource));
+//                              iv_book_bg.setImageBitmap(FastBlurUtil.doBlur(book_img, 5, true));
+                                iv_book_bg.setAlpha(0.9f);
+                            }
+                            else
+                            {
+                                iv_book_bg.setImageBitmap(resource);
+                                iv_book_bg.setAlpha(0.7f);
+                            }
                         }
                     });
         }
-        mFab.setOnClickListener(v -> Toast.makeText(BookDetailActivity.this, "click", Toast.LENGTH_SHORT).show());
+//        mFab.setOnClickListener(v -> Toast.makeText(BookDetailActivity.this, "click", Toast.LENGTH_SHORT).show());
+        OrderManager orderManager = new OrderManager();
+        mFab.setOnClickListener(v ->
+                {
+                    OrderInfo orderInfo = new OrderInfo();
+                    orderInfo.account = Global.getAccountInfo().account;
+                    orderInfo.bookID = Integer.parseInt(mBookInfoResponse.getId());
+                    orderInfo.orderState = 0;
+                    orderInfo.quantity = 1;
+                    orderInfo.time = System.currentTimeMillis();
+                    orderInfo.address = Global.getAccountInfo().address;
+                    orderInfo.bookInfo = mBookInfoResponse;
+
+                    orderManager.updateOrder(orderInfo);
+                }
+        );
         bookDetailPresenter.loadReviews(mBookInfoResponse.getId(), PAGE * REVIEWS_COUNT, REVIEWS_COUNT, COMMENT_FIELDS);
     }
 
@@ -134,13 +171,13 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                startActivity(new Intent(this, MainActivity.class));
+                onBackPressed();
                 return true;
 //            case R.id.action_share:
 //                StringBuilder sb = new StringBuilder();
 //                sb.append(getString(R.string.your_friend));
 //                sb.append(getString(R.string.share_book_1));
-//                sb.append(mBookInfoResponse.getTitle());
+//                sb.append(mBookInfoResponse.getTitleID());
 //                sb.append(getString(R.string.share_book_2));
 //                UIUtils.share(this, sb.toString(), null);
 //
