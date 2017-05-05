@@ -8,18 +8,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import com.market.aching.R;
 import com.market.aching.ui.base.BaseActivity;
 import com.market.aching.ui.fragment.HomeFragment;
-import com.market.aching.ui.fragment.OrderFragment;
+import com.market.aching.ui.fragment.ShoppingCarFragment;
 import com.market.aching.ui.fragment.SettingFragment;
 
 import butterknife.BindView;
-
-import static com.market.aching.util.AchingUtil.log;
 
 public class MainActivity extends BaseActivity
 {
@@ -191,7 +188,7 @@ public class MainActivity extends BaseActivity
                     fragment = HomeFragment.newInstance();
                     break;
                 case 1:
-                    fragment = OrderFragment.newInstance();
+                    fragment = ShoppingCarFragment.newInstance();
                     break;
                 case 2:
                     fragment = SettingFragment.newInstance();

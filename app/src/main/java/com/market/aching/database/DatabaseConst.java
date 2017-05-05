@@ -24,6 +24,7 @@ public class DatabaseConst
     static final String FIELD_ORDER_ID = "order_id";
     static final String FIELD_ORDER_BOOK_ID = "book_id";
     static final String FIELD_ORDER_STATE = "state";
+    static final String FIELD_ORDER_CHECK = "is_check";
     static final String FIELD_ORDER_QUANTITY = "quantity";
     static final String FIELD_ORDER_TIME = "time";
     static final String FIELD_ORDER_ADDRESS = "address";
@@ -43,6 +44,7 @@ public class DatabaseConst
                     + FIELD_ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + FIELD_ORDER_BOOK_ID + " VARCHAR,"
                     + FIELD_ORDER_STATE + " INTEGER,"
+                    + FIELD_ORDER_CHECK + " INTEGER,"
                     + FIELD_ORDER_QUANTITY + " INTEGER,"
                     + FIELD_ORDER_TIME + " INTEGER,"
                     + FIELD_ORDER_ADDRESS + " VARCHAR,"

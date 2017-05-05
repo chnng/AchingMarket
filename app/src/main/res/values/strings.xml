@@ -21,6 +21,13 @@
     <string name="title_notifications">购物车</string>
     <string name="title_dashboard">设置</string>
 
+    <string name="order_title">订单</string>
+    <string name="order_menu_edit">编辑</string>
+    <string name="order_list_empty">您的购物车空空如也</string>
+    <string name="order_check_one">请选择一本图书购买</string>
+    <string name="order_success">购买成功</string>
+    <string name="order_delete_tip">左右滑动以删除</string>
+
 
     <string name="comment_num">人点评</string>
     <string name="no_brief">暂无简介。</string>

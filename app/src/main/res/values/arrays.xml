@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="options_user">
+        <item>昵称</item>
+        <item>地址</item>
+        <item>订单</item>
+        <item>关于</item>
+        <item>注销</item>
+    </string-array>
+
+    <string-array name="options_admin">
+        <item>昵称</item>
+        <item>地址</item>
+        <item>订单</item>
+        <item>管理</item>
+        <item>关于</item>
+        <item>注销</item>
+    </string-array>
+</resources>

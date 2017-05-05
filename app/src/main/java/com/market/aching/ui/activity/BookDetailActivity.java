@@ -65,6 +65,7 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView
     private BookDetailPresenterImpl bookDetailPresenter;
 
     private Toolbar mToolbar;
+    private int spanCount = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +162,7 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView
                         orderInfo.orderState = 0;
                         orderInfo.time = System.currentTimeMillis();
                         orderInfo.address = Global.getAccountInfo().address;
+                        orderInfo.bookInfo.setChecked(true);
                         orderInfo.bookInfo.setQuantity(1);
                         orderManager.updateOrder(orderInfo);
                         Snackbar.make(v, "添加购物车成功", Snackbar.LENGTH_SHORT).show();

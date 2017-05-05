@@ -11,6 +11,7 @@ import java.util.List;
  * Description:
  */
 public class BookInfoResponse implements Serializable, Cloneable {
+
     public static final long serialVersionUID = 7060254125600464481L;
     public static final String serialVersionName = "bookInfo";
     private String id;
@@ -242,6 +243,13 @@ public class BookInfoResponse implements Serializable, Cloneable {
     }
 
     @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
+
+
+    @Override
     public String toString()
     {
         return "BookInfoResponse{" +
@@ -266,12 +274,8 @@ public class BookInfoResponse implements Serializable, Cloneable {
                 ", ebook_price='" + ebook_price + '\'' +
                 ", price='" + price + '\'' +
                 ", series=" + series +
+                ", isChecked=" + isChecked +
+                ", quantity=" + quantity +
                 '}';
-    }
-
-    @Override
-    public Object clone() throws CloneNotSupportedException
-    {
-        return super.clone();
     }
 }

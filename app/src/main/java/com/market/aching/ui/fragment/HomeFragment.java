@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.market.aching.R;
 import com.market.aching.adapter.BookListAdapter;
@@ -35,7 +36,7 @@ public class HomeFragment extends BaseFragment implements IBookListView, SwipeRe
     private static int count = 10;
     private static int page = 0;
     private String tag;
-    @BindView(R.id.rv_fragment_home)
+    @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_widget)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -81,6 +82,7 @@ public class HomeFragment extends BaseFragment implements IBookListView, SwipeRe
 
         //设置adapter
         mListAdapter = new BookListAdapter(getActivity(), bookInfoResponses, spanCount);
+        mListAdapter.setType(BookListAdapter.Type.HOME);
         mRecyclerView.setAdapter(mListAdapter);
 
         //设置Item增加、移除动画
@@ -163,7 +165,7 @@ public class HomeFragment extends BaseFragment implements IBookListView, SwipeRe
     @Override
     protected int getLayoutID()
     {
-        return R.layout.fragment_recycler;
+        return R.layout.fragment_home;
     }
 
     @Override
@@ -173,7 +175,7 @@ public class HomeFragment extends BaseFragment implements IBookListView, SwipeRe
     }
 
     @Override
-    protected void initViews(Bundle savedInstanceState)
+    protected void initViews(Toolbar toolbar)
     {
         tag = getArguments().getString("child");
         initEvents();

@@ -41,9 +41,13 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.BookDetailActivity"
+            android:name=".ui.activity.OrderActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.BookDetailActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.BookDetail"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"/>

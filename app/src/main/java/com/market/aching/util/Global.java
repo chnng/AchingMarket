@@ -3,6 +3,7 @@ package com.market.aching.util;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.market.aching.database.AccountManager;
 import com.market.aching.model.AccountInfo;
 
 import java.io.File;
@@ -43,6 +44,10 @@ public class Global
 
     public static AccountInfo getAccountInfo()
     {
+        if (null == accountInfo)
+        {
+            accountInfo = new AccountManager().queryCurrentAccount();
+        }
         return accountInfo;
     }
 

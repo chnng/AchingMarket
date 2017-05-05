@@ -6,10 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.market.aching.model.AccountInfo;
+import com.market.aching.util.Global;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static com.market.aching.database.DatabaseConst.FIELD_ORDER_BOOK_ID;
+import static com.market.aching.database.DatabaseConst.FIELD_ORDER_CHECK;
+import static com.market.aching.database.DatabaseConst.FIELD_ORDER_STATE;
 import static com.market.aching.database.DatabaseConst.SQL_CREATE_ORDER_TABLE;
 import static com.market.aching.database.DatabaseConst.FIELD_ACCOUNT;
 import static com.market.aching.database.DatabaseConst.FIELD_ACCOUNT_ICON;
@@ -17,6 +21,7 @@ import static com.market.aching.database.DatabaseConst.FIELD_ACCOUNT_LOGIN_STATE
 import static com.market.aching.database.DatabaseConst.FIELD_ACCOUNT_NAME;
 import static com.market.aching.database.DatabaseConst.FIELD_ACCOUNT_PASSWORD;
 import static com.market.aching.database.DatabaseConst.TABLE_ACCOUNTS;
+import static com.market.aching.database.DatabaseConst.TABLE_ORDER;
 
 /**
  * Created by Administrator on 2017/5/4.
@@ -24,7 +29,11 @@ import static com.market.aching.database.DatabaseConst.TABLE_ACCOUNTS;
 
 public class AccountManager
 {
-
+    /**
+     * 更新账户信息
+     *
+     * @param accountInfo
+     */
     public synchronized void updateAccount(AccountInfo accountInfo)
     {
         SQLiteDatabase database = DatabaseHelper.getInstance().getWritableDatabase();
@@ -56,12 +65,6 @@ public class AccountManager
         {
             // 插入
             database.insert(TABLE_ACCOUNTS, null, getContentValues(accountInfo));
-//            database.execSQL(
-//                    "INSERT INTO " + TABLE_ACCOUNTS
-//                            + " VALUES(null, ?, ?, ?, ?, ?)",
-//                    new Object[]{accountInfo.name, accountInfo.account,
-//                            accountInfo.password, accountInfo.icon,
-//                            accountInfo.loginState});
             database.execSQL(String.format(Locale.getDefault(), SQL_CREATE_ORDER_TABLE, accountInfo.account));
         } else
         {
@@ -74,7 +77,6 @@ public class AccountManager
     private ContentValues getContentValues(AccountInfo accountInfo)
     {
         ContentValues contentValues = new ContentValues();
-//        contentValues.put(FIELD_ACCOUNT_UID, accountInfo.account);
         contentValues.put(FIELD_ACCOUNT, accountInfo.account);
         contentValues.put(FIELD_ACCOUNT_PASSWORD, accountInfo.password);
         contentValues.put(FIELD_ACCOUNT_LOGIN_STATE, accountInfo.loginState);
@@ -169,5 +171,14 @@ public class AccountManager
             }
         }
         return infos;
+    }
+
+    public void loginOut()
+    {
+        SQLiteDatabase database = DatabaseHelper.getInstance().getWritableDatabase();
+        database.execSQL("UPDATE " + TABLE_ACCOUNTS
+                + " SET " + FIELD_ACCOUNT_LOGIN_STATE + "=0" + " WHERE " + FIELD_ACCOUNT
+                + "=" + Global.getAccountInfo().account + " AND " + FIELD_ACCOUNT_LOGIN_STATE + "=1");
+        Global.setAccountInfo(null);
     }
 }

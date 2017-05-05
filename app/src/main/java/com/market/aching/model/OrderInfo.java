@@ -8,9 +8,7 @@ public class OrderInfo
 {
     public int account;
     public int orderID;
-//    public int bookID;
     public int orderState;
-//    public int quantity;
     public long time;
     public String address;
     public BookInfoResponse bookInfo;
@@ -21,9 +19,7 @@ public class OrderInfo
         return "OrderInfo{" +
                 "account=" + account +
                 ", orderID=" + orderID +
-//                ", bookID=" + bookID +
                 ", orderState=" + orderState +
-//                ", quantity=" + quantity +
                 ", time=" + time +
                 ", address='" + address + '\'' +
                 ", bookInfo=" + bookInfo +

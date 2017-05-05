@@ -31,8 +31,6 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.market.aching.util.AchingUtil.log;
-
 /**
  * Created by Administrator on 2017/2/28.
  */

@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,8 +29,8 @@ public abstract class BaseFragment extends Fragment
         ButterKnife.bind(this, rootView);
         final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(getTitleID()));
-        ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
-        initViews(savedInstanceState);
+//        ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
+        initViews(toolbar);
         return rootView;
     }
 
@@ -38,14 +40,12 @@ public abstract class BaseFragment extends Fragment
 
     protected abstract int getTitleID();
 
-    protected abstract void initViews(Bundle savedInstanceState);
+    protected abstract void initViews(Toolbar toolbar);
 
-    protected void setTitle(String title)
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        ActionBar actionBar = ((BaseActivity) getActivity()).getSupportActionBar();
-        if (null != actionBar)
-        {
-            actionBar.setTitle(title);
-        }
+//        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
