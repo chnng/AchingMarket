@@ -38,7 +38,7 @@ public class OrderManager
         SQLiteDatabase database = DatabaseHelper.getInstance().getWritableDatabase();
         int count = 0;
         Cursor cursor = database.rawQuery("SELECT COUNT(*) AS counts FROM "
-                        + TABLE_ORDER + Global.getAccountInfo().account
+                        + TABLE_ORDER + orderInfo.account
                         + " WHERE " + FIELD_ORDER_BOOK_ID + "=? AND "
                         + FIELD_ORDER_STATE + "=?",
                 new String[]{orderInfo.bookInfo.getId(), String.valueOf(0)});
@@ -55,14 +55,14 @@ public class OrderManager
             contentValues.put(FIELD_ORDER_STATE, orderInfo.orderState);
             contentValues.put(FIELD_ORDER_CHECK, orderInfo.bookInfo.isChecked() ? 1 : 0);
             contentValues.put(FIELD_ORDER_QUANTITY, orderInfo.bookInfo.getQuantity());
-            contentValues.put(FIELD_ORDER_ADDRESS, orderInfo.address);
+            contentValues.put(FIELD_ORDER_ADDRESS, orderInfo.bookInfo.getAddress());
             contentValues.put(FIELD_ORDER_BOOK_INFO, bookInfoJson);
             database.insert(TABLE_ORDER + orderInfo.account, null, contentValues);
         } else
         {
             database = DatabaseHelper.getInstance().getWritableDatabase();
             cursor = database.rawQuery("SELECT * FROM "
-                            + TABLE_ORDER + Global.getAccountInfo().account
+                            + TABLE_ORDER + orderInfo.account
                             + " WHERE " + FIELD_ORDER_BOOK_ID + "=? AND "
                             + FIELD_ORDER_STATE + "=?"
                     , new String[]{orderInfo.bookInfo.getId(), "0"});
@@ -74,7 +74,7 @@ public class OrderManager
                 int orderID = cursor.getInt(indexOrderID);
                 int quantity = cursor.getInt(indexQuantity) + 1;
 //                log("quantity " + quantity);
-                database.execSQL("UPDATE " + TABLE_ORDER + Global.getAccountInfo().account
+                database.execSQL("UPDATE " + TABLE_ORDER + orderInfo.account
                         + " SET " + FIELD_ORDER_QUANTITY + "=" + quantity
                         + " WHERE " + FIELD_ORDER_ID + "=" + orderID);
             }
@@ -83,11 +83,12 @@ public class OrderManager
     }
 
     /**
-     * 查询所有没有被提交的表单
-     *
+     * 查询某个状态的所有订单
+     * @param account
+     * @param state
      * @return
      */
-    public synchronized ArrayList<OrderInfo> queryAllOrder(int state)
+    public synchronized ArrayList<OrderInfo> queryAllOrder(String account, int state)
     {
         SQLiteDatabase database = DatabaseHelper.getInstance().getWritableDatabase();
         ArrayList<OrderInfo> infos = new ArrayList<>();
@@ -95,7 +96,7 @@ public class OrderManager
         Cursor cursor = null;
         try
         {
-            cursor = database.rawQuery("SELECT * FROM " + TABLE_ORDER + Global.getAccountInfo().account
+            cursor = database.rawQuery("SELECT * FROM " + TABLE_ORDER + account
                     + " WHERE " + FIELD_ORDER_STATE + "=?", new String[]{String.valueOf(state)});
             if (cursor.getCount() > 0)
             {
@@ -112,12 +113,13 @@ public class OrderManager
                     info.orderID = cursor.getInt(indexOrderID);
 //                    info.bookID = cursor.getInt(indexBookID);
                     info.orderState = cursor.getInt(indexState);
-//                    info.quantity = cursor.getInt(indexQuantity);
-                    info.time = cursor.getInt(indexTime);
-                    info.address = cursor.getString(indexAddress);
+//                    info.time = cursor.getInt(indexTime);
+//                    info.address = cursor.getString(indexAddress);
                     info.bookInfo = gson.fromJson(cursor.getString(indexBook), BookInfoResponse.class);
                     info.bookInfo.setQuantity(cursor.getInt(indexQuantity));
                     info.bookInfo.setChecked(cursor.getInt(indexCheck) == 1);
+                    info.bookInfo.setTime(cursor.getLong(indexTime));
+                    info.bookInfo.setAddress(cursor.getString(indexAddress));
                     infos.add(info);
                 }
             }
@@ -132,6 +134,54 @@ public class OrderManager
             }
         }
         return infos;
+    }
+
+    /**
+     * 查询最后一个订单
+     * @param account
+     * @param state
+     * @return
+     */
+    public synchronized OrderInfo queryLastOrder(String account, int state)
+    {
+        SQLiteDatabase database = DatabaseHelper.getInstance().getWritableDatabase();
+        OrderInfo info = null;
+        Gson gson = new Gson();
+        Cursor cursor = null;
+        try
+        {
+            cursor = database.rawQuery("SELECT * FROM " + TABLE_ORDER + account
+                    + " WHERE " + FIELD_ORDER_STATE + "=?", new String[]{String.valueOf(state)});
+            if (cursor.getCount() > 0)
+            {
+                int indexOrderID = cursor.getColumnIndex(FIELD_ORDER_ID);
+                int indexState = cursor.getColumnIndex(FIELD_ORDER_STATE);
+                int indexCheck = cursor.getColumnIndex(FIELD_ORDER_CHECK);
+                int indexQuantity = cursor.getColumnIndex(FIELD_ORDER_QUANTITY);
+                int indexBook = cursor.getColumnIndex(FIELD_ORDER_BOOK_INFO);
+                int indexTime = cursor.getColumnIndex(FIELD_ORDER_TIME);
+                int indexAddress = cursor.getColumnIndex(FIELD_ORDER_ADDRESS);
+                cursor.moveToLast();
+                info = new OrderInfo();
+                info.orderID = cursor.getInt(indexOrderID);
+                info.orderState = cursor.getInt(indexState);
+                info.bookInfo = gson.fromJson(cursor.getString(indexBook), BookInfoResponse.class);
+                info.bookInfo.setQuantity(cursor.getInt(indexQuantity));
+                info.bookInfo.setChecked(cursor.getInt(indexCheck) == 1);
+                info.bookInfo.setTime(cursor.getLong(indexTime));
+                info.bookInfo.setAddress(cursor.getString(indexAddress));
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        } finally
+        {
+            if (cursor != null)
+            {
+                cursor.close();
+            }
+        }
+        return info;
     }
 
     /**
@@ -151,8 +201,10 @@ public class OrderManager
         for (String bookID : bookIDs)
         {
             database.execSQL("UPDATE " + TABLE_ORDER + Global.getAccountInfo().account
-                    + " SET " + FIELD_ORDER_STATE + "=1 WHERE "
-                    + FIELD_ORDER_BOOK_ID + "=" + bookID + " AND " + FIELD_ORDER_STATE + "=0");
+                    + " SET " + FIELD_ORDER_STATE + "=1, "
+                    + FIELD_ORDER_TIME + "=" + System.currentTimeMillis()
+                    + " WHERE " + FIELD_ORDER_BOOK_ID + "=" + bookID
+                    + " AND " + FIELD_ORDER_STATE + "=0");
         }
 //        cursor.close();
     }

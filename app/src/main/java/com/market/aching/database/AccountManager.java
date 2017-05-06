@@ -11,6 +11,8 @@ import com.market.aching.util.Global;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static android.R.attr.name;
+import static com.market.aching.database.DatabaseConst.FIELD_ACCOUNT_ADDRESS;
 import static com.market.aching.database.DatabaseConst.FIELD_ORDER_BOOK_ID;
 import static com.market.aching.database.DatabaseConst.FIELD_ORDER_CHECK;
 import static com.market.aching.database.DatabaseConst.FIELD_ORDER_STATE;
@@ -81,6 +83,7 @@ public class AccountManager
         contentValues.put(FIELD_ACCOUNT_PASSWORD, accountInfo.password);
         contentValues.put(FIELD_ACCOUNT_LOGIN_STATE, accountInfo.loginState);
         contentValues.put(FIELD_ACCOUNT_NAME, accountInfo.name);
+        contentValues.put(FIELD_ACCOUNT_ADDRESS, accountInfo.address);
         contentValues.put(FIELD_ACCOUNT_ICON, accountInfo.icon);
         return contentValues;
     }
@@ -106,13 +109,15 @@ public class AccountManager
                 int indexPassword = cursor.getColumnIndex(FIELD_ACCOUNT_PASSWORD);
                 int indexLoginState = cursor.getColumnIndex(FIELD_ACCOUNT_LOGIN_STATE);
                 int indexName = cursor.getColumnIndex(FIELD_ACCOUNT_NAME);
+                int indexAddress = cursor.getColumnIndex(FIELD_ACCOUNT_ADDRESS);
                 int indexIcon = cursor.getColumnIndex(FIELD_ACCOUNT_ICON);
                 while (cursor.moveToNext())
                 {
-                    info.account = cursor.getInt(indexAccount);
+                    info.account = cursor.getString(indexAccount);
                     info.password = cursor.getBlob(indexPassword);
                     info.loginState = cursor.getInt(indexLoginState);
                     info.name = cursor.getString(indexName);
+                    info.address = cursor.getString(indexAddress);
                     info.icon = cursor.getString(indexIcon);
                 }
             }
@@ -148,14 +153,16 @@ public class AccountManager
                 int indexPassword = cursor.getColumnIndex(FIELD_ACCOUNT_PASSWORD);
                 int indexLoginState = cursor.getColumnIndex(FIELD_ACCOUNT_LOGIN_STATE);
                 int indexName = cursor.getColumnIndex(FIELD_ACCOUNT_NAME);
+                int indexAddress = cursor.getColumnIndex(FIELD_ACCOUNT_ADDRESS);
                 int indexIcon = cursor.getColumnIndex(FIELD_ACCOUNT_ICON);
                 while (cursor.moveToNext())
                 {
                     AccountInfo info = new AccountInfo();
-                    info.account = cursor.getInt(indexAccount);
+                    info.account = cursor.getString(indexAccount);
                     info.password = cursor.getBlob(indexPassword);
                     info.loginState = cursor.getInt(indexLoginState);
                     info.name = cursor.getString(indexName);
+                    info.address = cursor.getString(indexAddress);
                     info.icon = cursor.getString(indexIcon);
                     infos.add(info);
                 }
@@ -180,5 +187,23 @@ public class AccountManager
                 + " SET " + FIELD_ACCOUNT_LOGIN_STATE + "=0" + " WHERE " + FIELD_ACCOUNT
                 + "=" + Global.getAccountInfo().account + " AND " + FIELD_ACCOUNT_LOGIN_STATE + "=1");
         Global.setAccountInfo(null);
+    }
+
+    public void updateName(String name)
+    {
+        SQLiteDatabase database = DatabaseHelper.getInstance().getWritableDatabase();
+        database.execSQL("UPDATE " + TABLE_ACCOUNTS
+                + " SET " + FIELD_ACCOUNT_NAME + "='" + name + "' WHERE " + FIELD_ACCOUNT
+                + "=" + Global.getAccountInfo().account + " AND " + FIELD_ACCOUNT_LOGIN_STATE + "=1");
+        Global.getAccountInfo().name = name;
+    }
+
+    public void updateAddress(String address)
+    {
+        SQLiteDatabase database = DatabaseHelper.getInstance().getWritableDatabase();
+        database.execSQL("UPDATE " + TABLE_ACCOUNTS
+                + " SET " + FIELD_ACCOUNT_ADDRESS + "='" + address + "' WHERE " + FIELD_ACCOUNT
+                + "=" + Global.getAccountInfo().account + " AND " + FIELD_ACCOUNT_LOGIN_STATE + "=1");
+        Global.getAccountInfo().address = address;
     }
 }

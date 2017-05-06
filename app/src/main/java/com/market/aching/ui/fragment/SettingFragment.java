@@ -15,6 +15,7 @@ import com.market.aching.R;
 import com.market.aching.adapter.SettingAdapter;
 import com.market.aching.ui.base.BaseFragment;
 import com.market.aching.util.Blur;
+import com.market.aching.util.Global;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,10 @@ public class SettingFragment extends BaseFragment
     protected void initViews(Toolbar toolbar)
     {
 //        mSwipeRefreshLayout.setEnabled(false);
-        String[] optionArray = getResources().getStringArray(R.array.options_user);
+        String[] optionArray = getResources().getStringArray(
+                Global.getAccountInfo().account.equals(
+                        getString(R.string.account_administrator_0))
+                        ? R.array.options_admin : R.array.options_user);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(new SettingAdapter(getContext(), optionArray));

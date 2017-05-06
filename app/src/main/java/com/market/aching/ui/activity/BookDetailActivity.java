@@ -33,6 +33,8 @@ import com.market.aching.util.Global;
 
 import butterknife.BindView;
 
+import static java.lang.System.currentTimeMillis;
+
 /**
  * Author   :hymanme
  * Email    :hymanme@163.com
@@ -160,10 +162,10 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView
                     {
                         orderInfo.account = Global.getAccountInfo().account;
                         orderInfo.orderState = 0;
-                        orderInfo.time = System.currentTimeMillis();
-                        orderInfo.address = Global.getAccountInfo().address;
                         orderInfo.bookInfo.setChecked(true);
                         orderInfo.bookInfo.setQuantity(1);
+//                        orderInfo.bookInfo.setTime(System.currentTimeMillis());
+                        orderInfo.bookInfo.setAddress(Global.getAccountInfo().address);
                         orderManager.updateOrder(orderInfo);
                         Snackbar.make(v, "添加购物车成功", Snackbar.LENGTH_SHORT).show();
                     }

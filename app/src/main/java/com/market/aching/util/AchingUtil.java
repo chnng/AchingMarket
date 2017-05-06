@@ -9,6 +9,12 @@ import android.view.WindowManager;
 
 import com.market.aching.BaseApplication;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import static android.R.attr.description;
+
 /**
  * Created by chnng on 2017/4/29.
  */
@@ -21,6 +27,14 @@ public class AchingUtil
         {
             Log.d("Aching", msg.toString());
         }
+    }
+
+    public static String getData(long time)
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date(time);
+        return simpleDateFormat.format(date);
     }
 
     /**
@@ -66,18 +80,23 @@ public class AchingUtil
 
     /**
      * 判断网络是否连接
+     *
      * @return
      */
-    public static boolean isConnected() {
+    public static boolean isConnected()
+    {
 
         ConnectivityManager connectivity = (ConnectivityManager) BaseApplication.getInstance()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if (null != connectivity) {
+        if (null != connectivity)
+        {
 
             NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (null != info && info.isConnected()) {
-                if (info.getState() == NetworkInfo.State.CONNECTED) {
+            if (null != info && info.isConnected())
+            {
+                if (info.getState() == NetworkInfo.State.CONNECTED)
+                {
                     return true;
                 }
             }

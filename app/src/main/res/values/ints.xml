@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="home_span_count">1</integer>
+    <string name="administrator">18186323151</string>
 </resources>

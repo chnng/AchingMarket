@@ -38,6 +38,8 @@ public class BookInfoResponse implements Serializable, Cloneable {
 
     private boolean isChecked;
     private int quantity;
+    private long time;
+    private String address;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -233,6 +235,26 @@ public class BookInfoResponse implements Serializable, Cloneable {
     public void setQuantity(int quantity)
     {
         this.quantity = quantity;
+    }
+
+    public long getTime()
+    {
+        return time;
+    }
+
+    public void setTime(long time)
+    {
+        this.time = time;
+    }
+
+    public String getAddress()
+    {
+        return address;
+    }
+
+    public void setAddress(String address)
+    {
+        this.address = address;
     }
 
     public String getInfoString() {

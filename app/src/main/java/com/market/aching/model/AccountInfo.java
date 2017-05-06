@@ -9,13 +9,12 @@ import android.os.Parcelable;
 
 public class AccountInfo implements Parcelable
 {
-//    public int account;
-    public int account;
+    public String account;
     public byte[] password;
     public int loginState;
     public String name;
-    public String icon;
     public String address;
+    public String icon;
 
     public AccountInfo()
     {
@@ -30,22 +29,22 @@ public class AccountInfo implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
-        dest.writeInt(this.account);
+        dest.writeString(this.account);
         dest.writeByteArray(this.password);
         dest.writeInt(this.loginState);
         dest.writeString(this.name);
-        dest.writeString(this.icon);
         dest.writeString(this.address);
+        dest.writeString(this.icon);
     }
 
     protected AccountInfo(Parcel in)
     {
-        this.account = in.readInt();
+        this.account = in.readString();
         this.password = in.createByteArray();
         this.loginState = in.readInt();
         this.name = in.readString();
-        this.icon = in.readString();
         this.address = in.readString();
+        this.icon = in.readString();
     }
 
     public static final Creator<AccountInfo> CREATOR = new Creator<AccountInfo>()

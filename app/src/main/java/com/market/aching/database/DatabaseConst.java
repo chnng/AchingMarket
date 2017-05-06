@@ -3,7 +3,8 @@ package com.market.aching.database;
 import com.market.aching.util.Global;
 
 /**
- * Created by Administrator on 2017/5/4.
+ * Created by chnng on 2017/5/4.
+ * 建表相关常量
  */
 
 public class DatabaseConst
@@ -15,10 +16,12 @@ public class DatabaseConst
     public static final int SUBMITTED = 1;
 
     static final String TABLE_ACCOUNTS = "accounts";
+    static final String TABLE_ACCOUNT_ID = "account_id";
     static final String FIELD_ACCOUNT = "account";
     static final String FIELD_ACCOUNT_PASSWORD = "password";
     static final String FIELD_ACCOUNT_LOGIN_STATE = "login_state";
     static final String FIELD_ACCOUNT_NAME = "name";
+    static final String FIELD_ACCOUNT_ADDRESS = "address";
     static final String FIELD_ACCOUNT_ICON = "icon_index";
     static final String TABLE_ORDER = "order_";
     static final String FIELD_ORDER_ID = "order_id";
@@ -33,14 +36,16 @@ public class DatabaseConst
     static final String SQL_CREATE_ACCOUNT_TABLE =
             "CREATE TABLE " +
                     TABLE_ACCOUNTS + "("
-                    + FIELD_ACCOUNT + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + TABLE_ACCOUNT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + FIELD_ACCOUNT + " VARCHAR,"
                     + FIELD_ACCOUNT_PASSWORD + " BLOB,"
                     + FIELD_ACCOUNT_LOGIN_STATE + " INTEGER,"
                     + FIELD_ACCOUNT_NAME + " VARCHAR,"
+                    + FIELD_ACCOUNT_ADDRESS + " VARCHAR,"
                     + FIELD_ACCOUNT_ICON + " VARCHAR)";
 
     static final String SQL_CREATE_ORDER_TABLE =
-            "CREATE TABLE " + TABLE_ORDER + "%d("
+            "CREATE TABLE " + TABLE_ORDER + "%s("
                     + FIELD_ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + FIELD_ORDER_BOOK_ID + " VARCHAR,"
                     + FIELD_ORDER_STATE + " INTEGER,"

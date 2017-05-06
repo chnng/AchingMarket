@@ -185,8 +185,8 @@ public class BookDetailAdapter extends RecyclerView.Adapter {
             } else if (position == HEADER_COUNT) {
                 ((BookCommentHolder) holder).tv_comment_title.setVisibility(View.VISIBLE);
             } else if (position == reviews.size() + 1) {
-                ((BookCommentHolder) holder).tv_more_comment.setVisibility(View.VISIBLE);
-                ((BookCommentHolder) holder).tv_more_comment.setText(BaseActivity.activity.getString(R.string.more_brief) + mReviewsListResponse.getTotal() + "条");
+//                ((BookCommentHolder) holder).tv_more_comment.setVisibility(View.VISIBLE);
+//                ((BookCommentHolder) holder).tv_more_comment.setText(BaseActivity.activity.getString(R.string.more_brief) + mReviewsListResponse.getTotal() + "条");
 //                ((BookCommentHolder) holder).tv_more_comment.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {

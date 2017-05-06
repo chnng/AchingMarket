@@ -22,6 +22,7 @@ import com.market.aching.database.OrderManager;
 import com.market.aching.model.BookInfoResponse;
 import com.market.aching.model.OrderInfo;
 import com.market.aching.ui.base.BaseFragment;
+import com.market.aching.util.Global;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -245,7 +246,7 @@ public class ShoppingCarFragment extends BaseFragment
     public void onRefresh()
     {
         bookInfoResponses.clear();
-        for (OrderInfo orderInfo : mOrderManager.queryAllOrder(UNSUBMITTED))
+        for (OrderInfo orderInfo : mOrderManager.queryAllOrder(Global.getAccountInfo().account, UNSUBMITTED))
         {
             bookInfoResponses.add(orderInfo.bookInfo);
         }

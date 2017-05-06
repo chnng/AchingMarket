@@ -6,11 +6,11 @@ package com.market.aching.model;
 
 public class OrderInfo
 {
-    public int account;
+    public String account;
     public int orderID;
     public int orderState;
-    public long time;
-    public String address;
+//    public long time;
+//    public String address;
     public BookInfoResponse bookInfo;
 
     @Override
@@ -20,8 +20,8 @@ public class OrderInfo
                 "account=" + account +
                 ", orderID=" + orderID +
                 ", orderState=" + orderState +
-                ", time=" + time +
-                ", address='" + address + '\'' +
+//                ", time=" + time +
+//                ", address='" + address + '\'' +
                 ", bookInfo=" + bookInfo +
                 '}';
     }

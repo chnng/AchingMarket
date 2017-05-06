@@ -3,6 +3,7 @@ package com.market.aching.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,7 +31,10 @@ import com.market.aching.model.BookInfoResponse;
 import com.market.aching.ui.activity.BookDetailActivity;
 import com.market.aching.ui.base.BaseActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Author   :hymanme
@@ -61,6 +66,7 @@ public class BookListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.bookInfoResponses = responses;
         this.columns = columns;
         this.mContext = context;
+        mOrderManager = new OrderManager();
     }
 
     @Override
@@ -98,34 +104,57 @@ public class BookListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof BookListHolder) {
             final BookListHolder bookHolder = (BookListHolder) holder;
             final BookInfoResponse bookInfo = bookInfoResponses.get(position);
-            if (mType == Type.SHOPPING_CAR)
+            switch (mType)
             {
-                bookHolder.cv_book.setCardBackgroundColor(sortable ? mContext.getResources().getColor(R.color.colorAccent60) : Color.TRANSPARENT);
-                bookHolder.cv_book.setOnTouchListener((v, event) ->
-                {
-                    ((ViewPager) ((Activity) mContext).findViewById(R.id.container)).requestDisallowInterceptTouchEvent(sortable);
-                    return false;
-                });
-                if (bookInfo.getQuantity() > 0)
-                {
-                    bookHolder.cb_book.setVisibility(View.VISIBLE);
-                    bookHolder.cb_book.setChecked(bookInfo.isChecked());
-                    bookHolder.cb_book.setOnClickListener(v ->
+                case HOME:
+                    bookHolder.tv_book_description.setText("\u3000" + bookInfo.getSummary());
+                    break;
+                case SHOPPING_CAR:
+                    bookHolder.cv_book.setCardBackgroundColor(sortable ?
+                            ColorStateList.valueOf(Color.GRAY) : ColorStateList.valueOf(Color.WHITE));
+                    bookHolder.cv_book.setOnTouchListener((v, event) ->
                     {
-                        boolean isChecked = bookHolder.cb_book.isChecked();
-                        bookInfo.setChecked(isChecked);
-                        if (null == mOrderManager)
-                        {
-                            mOrderManager = new OrderManager();
-                        }
-                        mOrderManager.setCheckOrder(bookInfo.getId(), isChecked);
+                        ((ViewPager) ((Activity) mContext).findViewById(R.id.container))
+                                .requestDisallowInterceptTouchEvent(sortable);
+                        return false;
                     });
-                }
-            }
-            if (mType != Type.HOME && bookInfo.getQuantity() > 0)
-            {
-                bookHolder.tv_book_quantity.setVisibility(View.VISIBLE);
-                bookHolder.tv_book_quantity.setText("X" + bookInfo.getQuantity());
+                    if (bookInfo.getQuantity() > 0)
+                    {
+                        bookHolder.cb_book.setVisibility(View.VISIBLE);
+                        bookHolder.cb_book.setChecked(bookInfo.isChecked());
+                        bookHolder.cb_book.setOnClickListener(v ->
+                        {
+                            boolean isChecked = bookHolder.cb_book.isChecked();
+                            bookInfo.setChecked(isChecked);
+                            mOrderManager.setCheckOrder(bookInfo.getId(), isChecked);
+                        });
+                        bookHolder.tv_book_quantity.setVisibility(View.VISIBLE);
+                        bookHolder.tv_book_quantity.setText("X" + bookInfo.getQuantity());
+                    }
+                    bookHolder.tv_book_description.setText("\u3000" + bookInfo.getSummary());
+                    break;
+                case ORDER:
+                    if (bookInfo.getQuantity() > 0)
+                    {
+                        bookHolder.tv_book_quantity.setVisibility(View.VISIBLE);
+                        bookHolder.tv_book_quantity.setText("X" + bookInfo.getQuantity());
+                    }
+                    StringBuilder description = new StringBuilder();
+                    if (bookInfo.getTime() != 0)
+                    {
+                        description.append("日期：");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        Date date = new Date(bookInfo.getTime());
+                        description.append(simpleDateFormat.format(date));
+                    }
+                    if (!TextUtils.isEmpty(bookInfo.getAddress()))
+                    {
+                        description.append("\n地址：");
+                        description.append(bookInfo.getAddress());
+                    }
+                    bookHolder.tv_book_description.setText(description);
+                    break;
             }
             Glide.with(mContext)
                     .load(bookInfo.getImages().getLarge())
@@ -134,7 +163,6 @@ public class BookListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             bookHolder.ratingBar_hots.setRating(Float.valueOf(bookInfo.getRating().getAverage()) / 2);
             bookHolder.tv_hots_num.setText(bookInfo.getRating().getAverage());
             bookHolder.tv_book_info.setText(bookInfo.getInfoString());
-            bookHolder.tv_book_description.setText("\u3000" + bookInfo.getSummary());
             bookHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

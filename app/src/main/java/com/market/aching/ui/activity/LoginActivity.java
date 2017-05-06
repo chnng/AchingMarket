@@ -27,6 +27,8 @@ import com.market.aching.util.ScreenManager;
 
 import java.util.ArrayList;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -189,41 +191,41 @@ public class LoginActivity extends BaseActivity
      */
     private boolean isInputValid(InputType inputType)
     {
-//        EditText editText;
-        TextInputLayout textInputLayout;
+        String inputMsg;
         String errorMsg;
         switch (inputType)
         {
             case ACCOUNT:
-//                editText = mEditTextAccount;
-                textInputLayout = mTextInputAccount;
-                errorMsg = getString(R.string.login_account);
-                break;
+                mTextInputAccount.setError(null);
+                Editable editable = mEditTextAccount.getText();
+                inputMsg = editable.toString();
+                String regex = getString(R.string.regex);
+                Pattern p = Pattern.compile(regex);
+                Matcher m = p.matcher(inputMsg);
+                if (!m.matches())
+                {
+                    errorMsg = getString(R.string.login_error_not_match);
+                    mTextInputAccount.setError(errorMsg);
+                    return false;
+                }
             case PASSWORD:
-//                editText = mEditTextPassword;
-                textInputLayout = mTextInputPassword;
+                mTextInputPassword.setError(null);
                 errorMsg = getString(R.string.login_password);
-                break;
-            default:
-                return false;
+                inputMsg = mEditTextPassword.getText().toString();
+                if (TextUtils.isEmpty(inputMsg))
+                {
+                    errorMsg += getString(R.string.login_error_empty);
+                    mTextInputPassword.setError(errorMsg);
+                    return false;
+                }
+                else if (inputMsg.length() < 4)
+                {
+                    errorMsg += getString(R.string.login_error_short);
+                    mTextInputPassword.setError(errorMsg);
+                    return false;
+                }
         }
-//        editText.setError(null);
-        textInputLayout.setError(null);
-        String inputMsg = textInputLayout.getEditText().getText().toString();
-        if (TextUtils.isEmpty(inputMsg))
-        {
-            errorMsg += getString(R.string.login_error_empty);
-            textInputLayout.setError(errorMsg);
-            return false;
-        } else if (inputMsg.length() < 4)
-        {
-            errorMsg += getString(R.string.login_error_short);
-            textInputLayout.setError(errorMsg);
-            return false;
-        } else
-        {
-            return true;
-        }
+        return true;
     }
 
     /**
@@ -244,7 +246,7 @@ public class LoginActivity extends BaseActivity
         } else
         {
             // Store values at the time of the login attempt.
-            int account = Integer.parseInt(String.valueOf(mEditTextAccount.getText()));
+            String account = String.valueOf(mEditTextAccount.getText());
             String password = mEditTextPassword.getText().toString();
             if (mAccountInfoList.isEmpty())
             {
@@ -254,7 +256,7 @@ public class LoginActivity extends BaseActivity
             {
                 for (AccountInfo accountTemp : mAccountInfoList)
                 {
-                    if (accountTemp.account == account)
+                    if (accountTemp.account.equals(account))
                     {
                         if (!new String(accountTemp.password).equals(password))
                         {
@@ -283,14 +285,13 @@ public class LoginActivity extends BaseActivity
         } else
         {
             // Store values at the time of the register attempt.
-            int account = Integer.parseInt(String.valueOf(mEditTextAccount.getText()));
+            String account = String.valueOf(mEditTextAccount.getText());
             String password = mEditTextPassword.getText().toString();
-
             if (!mAccountInfoList.isEmpty())
             {
                 for (AccountInfo accountTemp : mAccountInfoList)
                 {
-                    if (accountTemp.account == account)
+                    if (accountTemp.account.equals(account))
                     {
                         showSnackBar(getString(R.string.login_error_is_exist));
                         return;
