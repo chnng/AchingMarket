@@ -1,12 +1,15 @@
 # AchingMarket
-一、概述：
-本应用为实现用户登陆/注册/浏览/购买/查看订单的简易项目。
-二、框架：
-数据库：一个数据库，一张账号表，每个账号对应一个订单表；
-通用框架：异步任务：RxJava，Json解析：Gson，代码美化：ButterKnife、Lambda；
-网络请求：OkHttp、Retrofit；
-图像处理：Glide、CircleImageView；
-三、流程：
+
+##一、概述：
+    本应用为实现用户登陆/注册/浏览/购买/查看订单的简易项目。
+
+##二、框架：
+    数据库：一个数据库，一张账号表，每个账号对应一个订单表；
+    通用框架：异步任务：RxJava，Json解析：Gson，代码美化：ButterKnife、Lambda；
+    网络请求：OkHttp、Retrofit；
+    图像处理：Glide、CircleImageView。
+
+##三、流程：
     1、应用启动：
     （1）BaseApplication在onCreate中在外部存储根目录创建名为“ArchingMarket”的目录，并在其中建一个库名为“aching.db”的数据库，在该库中建一个名为“accounts”的表，含有account、password、login_state、name、address等字段，分别储存对应用户账号的账号名、密码、登陆状态、昵称、地址等；
     （2）闪屏页动画结束后跳转进登陆/注册页面。
