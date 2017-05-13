@@ -31,12 +31,12 @@ import static com.market.aching.util.AchingUtil.log;
  * Created by chnng on 2017/5/7.
  */
 
-public class AdminAdpter extends RecyclerView.Adapter
+public class AdminAdapter extends RecyclerView.Adapter
 {
     private Context mContext;
     private List<AccountInfo> mList;
 
-    public AdminAdpter(Context context, List<AccountInfo> list)
+    public AdminAdapter(Context context, List<AccountInfo> list)
     {
         this.mContext = context;
         this.mList = list;
@@ -58,7 +58,8 @@ public class AdminAdpter extends RecyclerView.Adapter
         adminHolder.tvName.setText(info.name);
         adminHolder.tvAddress.setText(info.address);
         OrderInfo orderInfo = new OrderManager().queryLastOrder(info.account, SUBMITTED);
-        if (orderInfo.bookInfo.getTime() != 0)
+        log("onBindViewHolder ===>> " + orderInfo);
+        if (null != orderInfo && null != orderInfo.bookInfo && orderInfo.bookInfo.getTime() != 0)
         {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
                     "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
