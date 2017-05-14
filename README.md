@@ -45,7 +45,7 @@
                 .load(bookInfo.getImages().getLarge())
                 .into(bookHolder.iv_book_img);
 	      ```
-	       ![book_list](https://github.com/chnng/AchingMarket/raw/master/screen/device-2017-05-14-132204.png)
+	       ![book_list](https://github.com/chnng/AchingMarket/raw/master/screen/WX20170514-143759@2x.png)
 		* 用户在点击RecyclerView任意一个item都会跳转进与之对应的图书详情页。
 	4. ### 图书详情：
 		* 图书部分：展示方式为图书封面和，封面背景。背景采用这样的规则：当用户手机android版本在5.0以下时，设置70%的透明度，当高于或等于5.0时，采用图像毛玻璃算法[`Blur`](http://www.jianshu.com/p/7ae7dfe47a70)。当用户向下滑动界面时，background和foreground的图书图像会随着滑动程度透明度减小，同是，作为父控件的`AppBarLayout`透明度增加直至完全不透明，而作为整个页面的`ActionBar`处于页面顶端，并展示相应标题；
@@ -64,7 +64,7 @@
 	        	contentValues.put(FIELD_ORDER_BOOK_INFO, bookInfoJson);
 	        	database.insert(TABLE_ORDER + orderInfo.account, null, contentValues);
 	        	
-		![book_list](https://github.com/chnng/AchingMarket/raw/master/screen/device-2017-05-14-132600.png)
+		![book_detail](https://github.com/chnng/AchingMarket/raw/master/screen/WX20170514-143828@2x.png)
 	5. ### 购物车列表：
 		* 读表：读取数据库中名为`order_uid`的表内所用状态为未购买的图书信息，展示在`RecyclerView`中，展示处理复用图书列表流程；
 		
@@ -90,12 +90,17 @@
 			}
 			```
 			
-		![book_list](https://github.com/chnng/AchingMarket/raw/master/screen/device-2017-05-14-132622.png)
+		![shopping_car](https://github.com/chnng/AchingMarket/raw/master/screen/WX20170514-143912@2x.png)
 	6. ### 设置页：
 	展示头像，昵称等个人信息，点击昵称和地址可以编辑，并更新数据库内账号信息。当用户为管理员时，多展示一个`管理`按钮。其次是`订单`、`关于`、`注销`等功能按钮。
+	
+		![setting](https://github.com/chnng/AchingMarket/raw/master/screen/WX20170514-143937@2x.png)
 	7. ### 订单页：
 	展示读取数据库中`order_uid`表内所用状态为已购买的图书信息。
+	
+		![order](https://github.com/chnng/AchingMarket/raw/master/screen/WX20170514-150910@2x.png)
 	8. ### 管理页：
 		默认隐藏，当登陆账号是管理员账号时显示，读取数据库中`accounts`除了自己以外的账户信息并展示。
+		
+		![admin](https://github.com/chnng/AchingMarket/raw/master/screen/WX20170514-145841@2x.png)
 
-		![book_list](https://github.com/chnng/AchingMarket/raw/master/screen/device-2017-05-14-132647.png)
